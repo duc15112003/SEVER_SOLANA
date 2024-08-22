@@ -47,4 +47,10 @@ public class IdeasService {
         ideas.setStatus("INACTIVE");
         return ideasRepository.save(ideas);
     }
+
+    public IdeasDTO findById(Long id){
+        Ideas ideas = ideasRepository.findIdeasById(id);
+        IdeasDTO ideasDTO = IdeasMapper.INSTANCE.toIdeasDto(ideas);
+        return ideasDTO;
+    }
 }

@@ -1,10 +1,10 @@
 package com.solana.com.controller;
 
-import com.solana.com.dto.AccountDTO;
-import com.solana.com.dto.AccountDTO;
+import com.solana.com.dto.AdminDTO;
+import com.solana.com.mapper.AdminMapper;
+
 import com.solana.com.respone.ApiResponse;
-import com.solana.com.service.AccountService;
-import com.solana.com.service.AccountService;
+import com.solana.com.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,30 +14,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping("/api/admin")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
-public class AccountController {
+public class AdminController {
     @Autowired
-    AccountService accountService;
+    AdminService adminService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<AccountDTO>>> getAllAccount() {
-        List<AccountDTO> accounts = accountService.getAll();
+    public ResponseEntity<ApiResponse<List<AdminDTO>>> getAllAdmin() {
+        List<AdminDTO> admins = adminService.getAll();
         HttpStatus status;
-        ApiResponse<List<AccountDTO>> response;
-        if (!accounts.isEmpty()) {
+        ApiResponse<List<AdminDTO>> response;
+        if (!admins.isEmpty()) {
             status = HttpStatus.OK;
-            response = ApiResponse.<List<AccountDTO>>builder()
+            response = ApiResponse.<List<AdminDTO>>builder()
                     .code(status.value())
-                    .message("Successfully find all accounts")
-                    .result(accounts)
+                    .message("Successfully find all admins")
+                    .result(admins)
                     .build();
         } else {
             status = HttpStatus.NOT_FOUND;
-            response = ApiResponse.<List<AccountDTO>>builder()
+            response = ApiResponse.<List<AdminDTO>>builder()
                     .code(status.value())
-                    .message("Fail to find all accounts")
+                    .message("Fail to find all admins")
                     .result(null)
                     .build();
         }
@@ -45,22 +45,22 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<AccountDTO>> createAccount(@RequestBody AccountDTO accountDTO) {
-        AccountDTO accountD = accountService.save(accountDTO);
-        ApiResponse<AccountDTO> response;
+    public ResponseEntity<ApiResponse<AdminDTO>> createAdmin(@RequestBody AdminDTO adminDTO) {
+        AdminDTO adminD = adminService.save(adminDTO);
+        ApiResponse<AdminDTO> response;
         HttpStatus status;
-        if (accountD != null) {
+        if (adminD != null) {
             status = HttpStatus.CREATED;
-            response = ApiResponse.<AccountDTO>builder()
+            response = ApiResponse.<AdminDTO>builder()
                     .code(status.value())
-                    .message("Successfully created accounts")
-                    .result(accountDTO)
+                    .message("Successfully created admins")
+                    .result(adminDTO)
                     .build();
         } else {
             status = HttpStatus.BAD_REQUEST;
-            response = ApiResponse.<AccountDTO>builder()
+            response = ApiResponse.<AdminDTO>builder()
                     .code(HttpStatus.BAD_REQUEST.value())
-                    .message("Failed to create account")
+                    .message("Failed to create admin")
                     .result(null)
                     .build();
         }
@@ -68,24 +68,24 @@ public class AccountController {
     }
 
     @PutMapping
-    public ResponseEntity<ApiResponse<AccountDTO>> updateAccount(@RequestBody AccountDTO accountDTO) {
-        AccountDTO updatedAccount = accountService.update(accountDTO);
+    public ResponseEntity<ApiResponse<AdminDTO>> updateAdmin(@RequestBody AdminDTO adminDTO) {
+        AdminDTO updatedAdmin = adminService.update(adminDTO);
 
-        ApiResponse<AccountDTO> response;
+        ApiResponse<AdminDTO> response;
         HttpStatus status;
 
-        if (updatedAccount != null) {
+        if (updatedAdmin != null) {
             status = HttpStatus.OK;
-            response = ApiResponse.<AccountDTO>builder()
+            response = ApiResponse.<AdminDTO>builder()
                     .code(status.value())
-                    .message("Successfully updated account")
-                    .result(updatedAccount)
+                    .message("Successfully updated admin")
+                    .result(updatedAdmin)
                     .build();
         } else {
             status = HttpStatus.BAD_REQUEST;
-            response = ApiResponse.<AccountDTO>builder()
+            response = ApiResponse.<AdminDTO>builder()
                     .code(status.value())
-                    .message("Account not found")
+                    .message("Admin not found")
                     .result(null)
                     .build();
         }
@@ -93,22 +93,22 @@ public class AccountController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> deleteAccount(@PathVariable String id) {
-        boolean idDeleted = accountService.delete(id);
+    public ResponseEntity<ApiResponse<String>> deleteAdmin(@PathVariable Long id) {
+        boolean idDeleted = adminService.delete(id);
         HttpStatus status;
         ApiResponse<String> response;
         if (idDeleted) {
             status = HttpStatus.NO_CONTENT;
             response = ApiResponse.<String>builder()
                     .code(status.value())
-                    .message("Successfully deleted account")
+                    .message("Successfully deleted admin")
                     .result(null)
                     .build();
         } else {
             status = HttpStatus.NOT_FOUND;
             response = ApiResponse.<String>builder()
                     .code(status.value())
-                    .message("Fail to delete account")
+                    .message("Fail to delete admin")
                     .result(null)
                     .build();
         }
@@ -116,22 +116,22 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<AccountDTO>> getAccountById(@PathVariable String id) {
-        AccountDTO accountDTO = accountService.getAccountById(id);
+    public ResponseEntity<ApiResponse<AdminDTO>> getAdminById(@PathVariable Long id) {
+        AdminDTO adminDTO = adminService.getAdminById(id);
         HttpStatus status;
-        ApiResponse<AccountDTO> response;
-        if (accountDTO != null) {
+        ApiResponse<AdminDTO> response;
+        if (adminDTO != null) {
             status = HttpStatus.OK;
-            response = ApiResponse.<AccountDTO>builder()
+            response = ApiResponse.<AdminDTO>builder()
                     .code(status.value())
-                    .message("Successfully to finded account")
-                    .result(accountDTO)
+                    .message("Successfully to finded admin")
+                    .result(adminDTO)
                     .build();
         } else {
             status = HttpStatus.NOT_FOUND;
-            response = ApiResponse.<AccountDTO>builder()
+            response = ApiResponse.<AdminDTO>builder()
                     .code(status.value())
-                    .message("Fail to find account")
+                    .message("Fail to find admin")
                     .result(null)
                     .build();
         }

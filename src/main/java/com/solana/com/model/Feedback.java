@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public class Feedback {
     private String feedback;
 
     @Column(name = "createAt")
-    private LocalDate createAt;
+    private Timestamp createAt;
 
     @Column(name = "status", length = 10)
     private String status;

@@ -1,10 +1,6 @@
 package com.solana.com.dto;
 
-import com.solana.com.model.*;
-import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.Set;
 
 @Getter
 @Setter

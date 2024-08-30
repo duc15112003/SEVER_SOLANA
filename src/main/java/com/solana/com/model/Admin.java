@@ -28,7 +28,7 @@ public class Admin {
     private String avatar;
 
     @Column(name = "birthday", nullable = false)
-    private java.sql.Date birthday;
+    private LocalDate birthday;
 
     @Column(name = "address", length = 255)
     private String address;

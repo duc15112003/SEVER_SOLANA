@@ -37,8 +37,6 @@ public class AdminService {
 
     public AdminDTO save(AdminDTO AdminDTO) {
         Admin admin = adminMapper.toAdmin(AdminDTO);
-        System.out.println(AdminDTO.toString());
-        System.out.println(admin.toString());
         admin.setCreateAt(LocalDate.now());
         return adminMapper.toAdminDTO(adminRepository.save(admin));
     }

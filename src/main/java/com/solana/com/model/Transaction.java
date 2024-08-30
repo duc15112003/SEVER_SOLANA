@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 @Entity
@@ -33,7 +34,7 @@ public class Transaction {
     private Long feeTransaction;
 
     @Column(name = "timestamp")
-    private LocalDate timestamp;
+    private Date timestamp;
 
     @Column(name = "block_hash", length = 64)
     private String blockHash;

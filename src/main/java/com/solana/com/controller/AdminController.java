@@ -54,7 +54,7 @@ public class AdminController {
             response = ApiResponse.<AdminDTO>builder()
                     .code(status.value())
                     .message("Successfully created admins")
-                    .result(adminDTO)
+                    .result(adminD)
                     .build();
         } else {
             status = HttpStatus.BAD_REQUEST;

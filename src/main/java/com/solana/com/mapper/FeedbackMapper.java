@@ -1,29 +1,39 @@
 package com.solana.com.mapper;
 
 import com.solana.com.dto.FeedbackDTO;
+import com.solana.com.model.Account;
 import com.solana.com.model.Feedback;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import com.solana.com.util.FormatDate;
+import org.mapstruct.*;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 
-@Mapper(componentModel = "spring")
+
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FeedbackMapper {
-    @Mapping(source = "createAt", target = "createAt", qualifiedByName = "localDateTimeToTimestamp")
+
+    @Mapping(target = "createAt", qualifiedByName = "stringToTimestamp",ignore = true)
+    @Mapping(target="account",ignore = true)
     Feedback toFeedback(FeedbackDTO feedbackDTO);
-    @Mapping(source = "createAt", target = "createAt", qualifiedByName = "timestampToLocalDateTime")
+
+    @Mapping(target = "createAt", qualifiedByName = "timestampToString")
+    @Mapping(target="account",qualifiedByName ="accountToString")
     FeedbackDTO toFeedbackDTO(Feedback feedback);
 
-    @Named("localDateTimeToTimestamp")
-    default Timestamp localDateTimeToTimestamp(LocalDateTime localDateTime) {
-        return localDateTime == null ? null : Timestamp.valueOf(localDateTime);
+    @Named("stringToTimestamp")
+    default Timestamp stringToTimestamp(String string) {
+        return string == null ? null : Timestamp.valueOf(string);
     }
 
-    @Named("timestampToLocalDateTime")
-    default LocalDateTime timestampToLocalDateTime(Timestamp timestamp) {
-        return timestamp == null ? null : timestamp.toLocalDateTime();
+    @Named("timestampToString")
+    default String timestampToString(Timestamp timestamp) {
+        return timestamp == null ? null : FormatDate.FormatTimestampToString(timestamp) ;
+    }
+
+    @Named("accountToString")
+    default String accountToString(Account account){
+        return account.getUsername();
     }
 }

@@ -32,11 +32,11 @@ public class Feedback {
     private Integer rate;
 
     @ManyToOne
-    @JoinColumn(name = "username")
+    @JoinColumn(name = "username",nullable = false)
     private Account account;
 
     @ManyToOne
-    @JoinColumn(name = "id_idea")
+    @JoinColumn(name = "id_idea",nullable = false)
     private Ideas idea;
 
     @OneToMany(mappedBy = "feedback")

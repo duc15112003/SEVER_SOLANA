@@ -52,7 +52,7 @@ public class FeedbackController {
             response = ApiResponse.<FeedbackDTO>builder()
                     .code(status.value())
                     .message("Successfully created feedbacks")
-                    .result(feedbackDTO)
+                    .result(feedbackD)
                     .build();
         } else {
             status = HttpStatus.BAD_REQUEST;

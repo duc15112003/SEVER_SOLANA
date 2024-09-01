@@ -1,9 +1,12 @@
 package com.solana.com.service;
 
+import com.solana.com.dao.AccountRepository;
 import com.solana.com.dao.FeedbackRepository;
+import com.solana.com.dao.IdeasRepository;
 import com.solana.com.dto.FeedbackDTO;
 import com.solana.com.mapper.FeedbackMapper;
 import com.solana.com.model.Feedback;
+import com.solana.com.util.FormatDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,10 @@ import java.util.Optional;
 public class FeedbackService {
     @Autowired
     private FeedbackRepository feedbackRepository;
+    @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
+    private IdeasRepository ideasRepository;
 
     @Autowired
     private FeedbackMapper feedbackMapper;
@@ -33,29 +40,37 @@ public class FeedbackService {
 
     public FeedbackDTO getFeedbackById(Long id) {
         Optional<Feedback> feedback = feedbackRepository.findById(id);
-        return  feedback.map(value->feedbackMapper.toFeedbackDTO(feedback.get())).orElse(null) ;
+        return feedback.map(value -> feedbackMapper.toFeedbackDTO(feedback.get())).orElse(null);
     }
 
-    public FeedbackDTO save(FeedbackDTO FeedbackDTO) {
-        Feedback feedback = feedbackMapper.toFeedback(FeedbackDTO);
+    public FeedbackDTO save(FeedbackDTO feedbackDTO) {
+        Feedback feedback = feedbackMapper.toFeedback(feedbackDTO);
         feedback.setCreateAt(Timestamp.valueOf(LocalDateTime.now()));
-        System.out.println(FeedbackDTO.toString());
-        System.out.println(feedback.toString());
-        return feedbackMapper.toFeedbackDTO(feedbackRepository.save(feedback));
+        feedback.setAccount(accountRepository.findById(feedbackDTO.getAccount()).orElse(null));
+        feedback.setIdea(ideasRepository.findById(feedbackDTO.getIdeaId()).orElse(null));
+        if (feedback.getAccount() == null || feedback.getIdea() == null) {
+            return null;
+        } else {
+            return feedbackMapper.toFeedbackDTO(feedbackRepository.save(feedback));
+        }
     }
 
-    public FeedbackDTO update(FeedbackDTO FeedbackDTO) {
-        Feedback feedback = feedbackMapper.toFeedback(FeedbackDTO);
-        System.out.println(feedback.toString());
-        System.out.println(FeedbackDTO);
-        return feedbackMapper.toFeedbackDTO(feedbackRepository.save(feedback));
+    public FeedbackDTO update(FeedbackDTO feedbackDTO) {
+        Feedback feedback = feedbackMapper.toFeedback(feedbackDTO);
+        feedback.setAccount(accountRepository.findById(feedbackDTO.getAccount()).orElse(null));
+        feedback.setIdea(ideasRepository.findById(feedbackDTO.getIdeaId()).orElse(null));
+        if (feedback.getAccount() == null || feedback.getIdea() == null) {
+            return null;
+        } else {
+            return feedbackMapper.toFeedbackDTO(feedbackRepository.save(feedback));
+        }
     }
 
     public boolean delete(Long id) {
-        if(feedbackRepository.findById(id).isPresent()){
+        if (feedbackRepository.findById(id).isPresent()) {
             feedbackRepository.deleteById(id);
             return true;
-        }else{
+        } else {
             return false;
         }
     }

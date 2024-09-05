@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,6 +26,7 @@ public class SecurityConfig {
 
     @Autowired
     @Lazy
+
     private JwtRequestFilter jwtRequestFilter;
 
     // Các endpoint không yêu cầu xác thực
@@ -53,6 +55,7 @@ public class SecurityConfig {
                                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: Authentication token was either missing or invalid.")
                                 ) // Xử lý lỗi xác thực mặc định
                 )
+
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Thêm JWT filter trước khi xử lý xác thực
 
         return http.build();

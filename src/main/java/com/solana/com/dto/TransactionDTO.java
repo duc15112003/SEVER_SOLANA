@@ -1,47 +1,30 @@
-package com.solana.com.model;
+package com.solana.com.dto;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public class TransactionDTO {
+        private Long id;
+        private String transactionType;
+        private String description;
+        private String status;
+        private Long amount;
+        private Long feeTransaction;
+        private String timestamp;
+        private String blockHash;
+        private String account;
+        
+    public TransactionDTO() {
+    }
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-
-@Entity
-@Table(name = "transactions")
-@NoArgsConstructor
-@AllArgsConstructor
-public class Transaction {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "transaction_type", length = 10)
-    private String transactionType;
-
-    @Column(name = "description", length = 255)
-    private String description;
-
-    @Column(name = "status", length = 10)
-    private String status;
-
-    @Column(name = "amount", precision = 18, scale = 8)
-    private Long amount;
-
-    @Column(name = "feeTransaction", precision = 18, scale = 8)
-    private Long feeTransaction;
-
-    @Column(name = "timestamp")
-    private Timestamp timestamp;
-
-    @Column(name = "block_hash", length = 64)
-    private String blockHash;
-
-    @ManyToOne
-    @JoinColumn(name = "username", nullable = false)
-    private Account account;
+    public TransactionDTO(Long id, String transactionType, String description, String status, Long amount, Long feeTransaction, String timestamp, String blockHash, String account) {
+        this.id = id;
+        this.transactionType = transactionType;
+        this.description = description;
+        this.status = status;
+        this.amount = amount;
+        this.feeTransaction = feeTransaction;
+        this.timestamp = timestamp;
+        this.blockHash = blockHash;
+        this.account = account;
+    }
 
     public Long getId() {
         return id;
@@ -91,11 +74,11 @@ public class Transaction {
         this.feeTransaction = feeTransaction;
     }
 
-    public Timestamp getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -107,26 +90,26 @@ public class Transaction {
         this.blockHash = blockHash;
     }
 
-    public Account getAccount() {
+    public String getAccount() {
         return account;
     }
 
-    public void setAccount(Account account) {
+    public void setAccount(String account) {
         this.account = account;
     }
 
     @Override
     public String toString() {
-        return "Transaction{" +
+        return "TransactionDTO{" +
                 "id=" + id +
                 ", transactionType='" + transactionType + '\'' +
                 ", description='" + description + '\'' +
                 ", status='" + status + '\'' +
                 ", amount=" + amount +
                 ", feeTransaction=" + feeTransaction +
-                ", timestamp=" + timestamp +
+                ", timestamp='" + timestamp + '\'' +
                 ", blockHash='" + blockHash + '\'' +
-                ", account=" + account +
+                ", account='" + account + '\'' +
                 '}';
     }
 }

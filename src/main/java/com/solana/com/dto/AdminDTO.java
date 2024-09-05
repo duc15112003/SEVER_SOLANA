@@ -1,49 +1,22 @@
-package com.solana.com.model;
+package com.solana.com.dto;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Set;
 
-@Entity
-@Table
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Admin {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@NoArgsConstructor
+@Builder
+public class AdminDTO {
     private Long id;
-
-    @Column(name = "firstname", nullable = false, length = 255)
     private String firstname;
-
-    @Column(name = "lastname", nullable = false, length = 255)
     private String lastname;
-
-    @Column(name = "avatar", nullable = false, length = 255)
     private String avatar;
-
-    @Column(name = "birthday", nullable = false)
     private LocalDate birthday;
-
-    @Column(name = "address", length = 255)
     private String address;
-
-    @Column(name = "phone_number", nullable = false, length = 13)
     private String phoneNumber;
-
-    @Column(name = "public_key", length = 255)
     private String publicKey;
-
-    @Column(name = "createAt", nullable = false)
     private LocalDate createAt;
-
-    @OneToMany(mappedBy = "admin")
-    private Set<Account> accounts;
 
     public Long getId() {
         return id;
@@ -117,11 +90,18 @@ public class Admin {
         this.createAt = createAt;
     }
 
-    public Set<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(Set<Account> accounts) {
-        this.accounts = accounts;
+    @Override
+    public String toString() {
+        return "AdminDTO{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", birthday=" + birthday +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", publicKey='" + publicKey + '\'' +
+                ", createAt=" + createAt +
+                '}';
     }
 }

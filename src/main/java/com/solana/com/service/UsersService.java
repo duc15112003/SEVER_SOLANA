@@ -16,14 +16,9 @@ public class UsersService {
     @Autowired
     private UsersRepository usersRepository;
 
-    public List<UsersDTO> getAllUsers() {
+    public List<Users> getAllUsers() {
         List<Users> users = usersRepository.findAll();
-        List<UsersDTO> usersDTOs = new ArrayList<UsersDTO>();
-        for (Users user : users) {
-            UsersDTO userDTO = UsersMapper.INSTANCE.toUsersDto(user);
-            usersDTOs.add(userDTO);
-        }
-        return usersDTOs;
+        return users ;
     }
 
     public UsersDTO getUserById(Long id) {

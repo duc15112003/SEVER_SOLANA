@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/feedback")
-@RequiredArgsConstructor
+@RequestMapping("api/feedback")
 @CrossOrigin(origins = "*")
 public class FeedbackController {
     @Autowired
@@ -41,10 +40,10 @@ public class FeedbackController {
                     .result(assembler.toModel(feedbacks))
                     .build();
         } else {
-            status = HttpStatus.NOT_FOUND;
+            status = HttpStatus.OK;
             response = ApiResponse.<PagedModel<EntityModel<FeedbackDTO>>>builder()
-                    .code(status.value())
-                    .message("Fail to find all accounts")
+                    .code(200)
+                    .message("Fail to find all feedback")
                     .result(null)
                     .build();
         }

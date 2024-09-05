@@ -2,12 +2,21 @@ package com.solana.com.service;
 
 import com.solana.com.dao.AccountRepository;
 import com.solana.com.dao.TransactionRepository;
+import com.solana.com.dto.FeedbackDTO;
 import com.solana.com.dto.TransactionDTO;
 import com.solana.com.mapper.TransactionMapper;
+import com.solana.com.model.Feedback;
 import com.solana.com.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,14 +32,15 @@ public class TransactionService {
     @Autowired
     private TransactionMapper transactionMapper;
 
-    public List<TransactionDTO> getAll() {
-        List<Transaction> transactionList = transactionRepository.findAll();
+    public Page<TransactionDTO> getAll(PageRequest pageRequest) {
+        Page<Transaction> transactionsList = transactionRepository.findAll(pageRequest);
         List<TransactionDTO> transactionDTOlist = new ArrayList<TransactionDTO>();
-        for (Transaction acc : transactionList) {
-            TransactionDTO accDTO = transactionMapper.toTransactionDTO(acc);
-            transactionDTOlist.add(accDTO);
+        for (Transaction tran : transactionsList.getContent()) {
+            TransactionDTO tranDTO = transactionMapper.toTransactionDTO(tran);
+            transactionDTOlist.add(tranDTO);
         }
-        return transactionDTOlist;
+
+        return new PageImpl<>(transactionDTOlist,transactionsList.getPageable(),transactionsList.getTotalElements());
     }
 
     public TransactionDTO getTransactionById(Long id) {
@@ -39,8 +49,10 @@ public class TransactionService {
     }
 
     public TransactionDTO save(TransactionDTO transactionDTO) {
-        System.out.println(transactionDTO.toString());
+        transactionDTO.setId(null);
         Transaction transaction = transactionMapper.toTransaction(transactionDTO);
+        transaction.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+        System.out.println(transaction.toString());
         transaction.setAccount(accountRepository.findById(transactionDTO.getAccount()).orElse(null));
         if (transaction.getAccount() == null) {
             return null;

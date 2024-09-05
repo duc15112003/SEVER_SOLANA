@@ -41,4 +41,68 @@ public class Feedback {
 
     @OneToMany(mappedBy = "feedback")
     private Set<Report> reports;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
+    public Timestamp getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Timestamp createAt) {
+        this.createAt = createAt;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getRate() {
+        return rate;
+    }
+
+    public void setRate(Integer rate) {
+        this.rate = rate;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Ideas getIdea() {
+        return idea;
+    }
+
+    public void setIdea(Ideas idea) {
+        this.idea = idea;
+    }
+
+    public Set<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(Set<Report> reports) {
+        this.reports = reports;
+    }
 }

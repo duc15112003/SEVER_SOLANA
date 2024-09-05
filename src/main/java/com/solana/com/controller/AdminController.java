@@ -1,5 +1,6 @@
 package com.solana.com.controller;
 
+import com.solana.com.dto.AccountDTO;
 import com.solana.com.dto.AdminDTO;
 import com.solana.com.mapper.AdminMapper;
 
@@ -7,6 +8,11 @@ import com.solana.com.respone.ApiResponse;
 import com.solana.com.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,21 +27,23 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
-    @GetMapping
-    public ResponseEntity<ApiResponse<List<AdminDTO>>> getAllAdmin() {
-        List<AdminDTO> admins = adminService.getAll();
+    @GetMapping("/all")
+    public ResponseEntity<ApiResponse<PagedModel<EntityModel<AdminDTO>>>> getAllAdmin(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                                   @RequestParam(value = "size", defaultValue = "10") int size,
+                                                                   PagedResourcesAssembler<AdminDTO> assembler) {
+        Page<AdminDTO> admins = adminService.getAll(PageRequest.of(page,size));
         HttpStatus status;
-        ApiResponse<List<AdminDTO>> response;
-        if (!admins.isEmpty()) {
+        ApiResponse<PagedModel<EntityModel<AdminDTO>>> response;
+        if (admins.hasContent()) {
             status = HttpStatus.OK;
-            response = ApiResponse.<List<AdminDTO>>builder()
+            response = ApiResponse.<PagedModel<EntityModel<AdminDTO>>>builder()
                     .code(status.value())
                     .message("Successfully find all admins")
-                    .result(admins)
+                    .result(assembler.toModel(admins))
                     .build();
         } else {
             status = HttpStatus.NOT_FOUND;
-            response = ApiResponse.<List<AdminDTO>>builder()
+            response = ApiResponse.<PagedModel<EntityModel<AdminDTO>>>builder()
                     .code(status.value())
                     .message("Fail to find all admins")
                     .result(null)
@@ -44,7 +52,7 @@ public class AdminController {
         return ResponseEntity.status(status).body(response);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ApiResponse<AdminDTO>> createAdmin(@RequestBody AdminDTO adminDTO) {
         AdminDTO adminD = adminService.save(adminDTO);
         ApiResponse<AdminDTO> response;
@@ -67,7 +75,7 @@ public class AdminController {
         return ResponseEntity.status(status).body(response);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<ApiResponse<AdminDTO>> updateAdmin(@RequestBody AdminDTO adminDTO) {
         AdminDTO updatedAdmin = adminService.update(adminDTO);
 
@@ -92,7 +100,7 @@ public class AdminController {
         return ResponseEntity.status(status).body(response);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/id/{id}")
     public ResponseEntity<ApiResponse<String>> deleteAdmin(@PathVariable Long id) {
         boolean idDeleted = adminService.delete(id);
         HttpStatus status;

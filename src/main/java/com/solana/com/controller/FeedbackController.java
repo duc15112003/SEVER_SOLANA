@@ -1,10 +1,16 @@
 package com.solana.com.controller;
 
+import com.solana.com.dto.AdminDTO;
 import com.solana.com.dto.FeedbackDTO;
 import com.solana.com.respone.ApiResponse;
 import com.solana.com.service.FeedbackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,30 +25,32 @@ public class FeedbackController {
     @Autowired
     FeedbackService feedbackService;
 
-    @GetMapping
-    public ResponseEntity<ApiResponse<List<FeedbackDTO>>> getAllFeedback() {
-        List<FeedbackDTO> feedbacks = feedbackService.getAll();
+    @GetMapping("/all")
+    public ResponseEntity<ApiResponse<PagedModel<EntityModel<FeedbackDTO>>>> getAllFeedback(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                                                         @RequestParam(value = "size", defaultValue = "10") int size,
+                                                                                         PagedResourcesAssembler<FeedbackDTO> assembler) {
+        Page<FeedbackDTO> feedbacks = feedbackService.getAll(PageRequest.of(page,size));
         HttpStatus status;
-        ApiResponse<List<FeedbackDTO>> response;
-        if (!feedbacks.isEmpty()) {
+        ApiResponse<PagedModel<EntityModel<FeedbackDTO>>> response;
+        if (feedbacks.hasContent()) {
             status = HttpStatus.OK;
-            response = ApiResponse.<List<FeedbackDTO>>builder()
+            response = ApiResponse.<PagedModel<EntityModel<FeedbackDTO>>>builder()
                     .code(status.value())
                     .message("Successfully find all feedbacks")
-                    .result(feedbacks)
+                    .result(assembler.toModel(feedbacks))
                     .build();
         } else {
             status = HttpStatus.NOT_FOUND;
-            response = ApiResponse.<List<FeedbackDTO>>builder()
+            response = ApiResponse.<PagedModel<EntityModel<FeedbackDTO>>>builder()
                     .code(status.value())
-                    .message("Fail to find all feedbacks")
+                    .message("Fail to find all accounts")
                     .result(null)
                     .build();
         }
         return ResponseEntity.status(status).body(response);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ApiResponse<FeedbackDTO>> createFeedback(@RequestBody FeedbackDTO feedbackDTO) {
         FeedbackDTO feedbackD = feedbackService.save(feedbackDTO);
         ApiResponse<FeedbackDTO> response;
@@ -65,7 +73,7 @@ public class FeedbackController {
         return ResponseEntity.status(status).body(response);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<ApiResponse<FeedbackDTO>> updateFeedback(@RequestBody FeedbackDTO feedbackDTO) {
         FeedbackDTO updatedFeedback = feedbackService.update(feedbackDTO);
 
@@ -90,7 +98,7 @@ public class FeedbackController {
         return ResponseEntity.status(status).body(response);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<String>> deleteFeedback(@PathVariable Long id) {
         boolean idDeleted = feedbackService.delete(id);
         HttpStatus status;
@@ -113,7 +121,7 @@ public class FeedbackController {
         return ResponseEntity.status(status).body(response);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<ApiResponse<FeedbackDTO>> getFeedbackById(@PathVariable Long id) {
         FeedbackDTO feedbackDTO = feedbackService.getFeedbackById(id);
         HttpStatus status;

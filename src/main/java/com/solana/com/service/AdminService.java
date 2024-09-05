@@ -5,6 +5,10 @@ import com.solana.com.dto.AdminDTO;
 import com.solana.com.mapper.AdminMapper;
 import com.solana.com.model.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,14 +24,14 @@ public class AdminService {
     @Autowired
     private AdminMapper adminMapper;
 
-    public List<AdminDTO> getAll() {
-        List<Admin> adminList = adminRepository.findAll();
+    public Page<AdminDTO> getAll(PageRequest pageRequest) {
+        Page<Admin> adminList = adminRepository.findAll(pageRequest);
         List<AdminDTO> adminDTOlist = new ArrayList<AdminDTO>();
         for (Admin adm : adminList) {
             AdminDTO admDTO = adminMapper.toAdminDTO(adm);
             adminDTOlist.add(admDTO);
         }
-        return adminDTOlist;
+        return new PageImpl<>(adminDTOlist,adminList.getPageable(),adminList.getTotalElements());
     }
 
     public AdminDTO getAdminById(Long id) {

@@ -8,6 +8,9 @@ import com.solana.com.mapper.FeedbackMapper;
 import com.solana.com.model.Feedback;
 import com.solana.com.util.FormatDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -28,14 +31,15 @@ public class FeedbackService {
     @Autowired
     private FeedbackMapper feedbackMapper;
 
-    public List<FeedbackDTO> getAll() {
-        List<Feedback> feedbackList = feedbackRepository.findAll();
+    public Page<FeedbackDTO> getAll(PageRequest pageRequest) {
+        Page<Feedback> feedbackList = feedbackRepository.findAll(pageRequest);
         List<FeedbackDTO> feedbackDTOlist = new ArrayList<FeedbackDTO>();
-        for (Feedback acc : feedbackList) {
-            FeedbackDTO accDTO = feedbackMapper.toFeedbackDTO(acc);
-            feedbackDTOlist.add(accDTO);
+        for (Feedback feed : feedbackList.getContent()) {
+            FeedbackDTO feedDTO = feedbackMapper.toFeedbackDTO(feed);
+            feedbackDTOlist.add(feedDTO);
         }
-        return feedbackDTOlist;
+
+        return new PageImpl<>(feedbackDTOlist,feedbackList.getPageable(),feedbackList.getTotalElements());
     }
 
     public FeedbackDTO getFeedbackById(Long id) {

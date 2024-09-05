@@ -5,6 +5,9 @@ import com.solana.com.dto.AccountDTO;
 import com.solana.com.mapper.AccountMapper;
 import com.solana.com.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,14 +21,15 @@ public class AccountService {
     private AccountRepository accountRepository;
     @Autowired
     private AccountMapper accountMapper;
-    public List<AccountDTO> getAll() {
-        List<Account> accountList = accountRepository.findAll();
+
+    public Page<AccountDTO> getAll(PageRequest pageRequest) {
+        Page<Account> accountPage = accountRepository.findAll(pageRequest);
         List<AccountDTO> accountDTOlist = new ArrayList<AccountDTO>();
-        for (Account acc : accountList) {
+        for (Account acc : accountPage.getContent()) {
             AccountDTO accDTO = accountMapper.toAccountDTO(acc);
             accountDTOlist.add(accDTO);
         }
-        return accountDTOlist;
+        return  new PageImpl<>(accountDTOlist, accountPage.getPageable(), accountPage.getTotalElements());
     }
 
     public AccountDTO getAccountById(String id) {

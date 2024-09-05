@@ -4,6 +4,7 @@ import com.solana.com.dto.FeedbackDTO;
 import com.solana.com.model.Feedback;
 import com.solana.com.service.FeedbackService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/feedbacks")
-@RequiredArgsConstructor
 public class FeedbackController {
 
-    private final FeedbackService feedbackService;
+    @Autowired
+    FeedbackService feedbackService;
 
     @GetMapping
     public ResponseEntity<List<FeedbackDTO>> getAllFeedback() {

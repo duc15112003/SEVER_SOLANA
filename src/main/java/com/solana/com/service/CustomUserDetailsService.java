@@ -16,26 +16,30 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    @Autowired
-    private AccountRepository accountRepository;
 
-    @Autowired
-    private RoleMappingRepository roleMappingRepository;
+    private final AccountRepository accountRepository;
+    private final RoleMappingRepository roleMappingRepository;
+
+    public CustomUserDetailsService(AccountRepository accountRepository, RoleMappingRepository roleMappingRepository) {
+        this.accountRepository = accountRepository;
+        this.roleMappingRepository = roleMappingRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountRepository.findById(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
+        // Lấy danh sách quyền (roles) từ cơ sở dữ liệu
         List<GrantedAuthority> authorities = roleMappingRepository.findByUsername(username)
                 .stream()
-                .map(roleMapping -> new SimpleGrantedAuthority(roleMapping.getRole().getName()))
+                .map(roleMapping -> new SimpleGrantedAuthority("ROLE_" + roleMapping.getRole().getName())) // Thêm prefix "ROLE_"
                 .collect(Collectors.toList());
 
         return new org.springframework.security.core.userdetails.User(
                 account.getUsername(),
                 account.getPassword(),
-                authorities
+                authorities // Gán quyền cho tài khoản
         );
     }
 }

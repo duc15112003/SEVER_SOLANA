@@ -13,7 +13,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -42,6 +45,11 @@ public class AuthenticationController {
             tokens.put("accessToken", accessToken);
             tokens.put("refreshToken", refreshToken);
 
+            List<String> roles = jwtUtil.extractRoles(accessToken);
+
+            for (String role : roles) {
+                System.out.println("Role: " + role);
+            }
             return ResponseEntity.ok(tokens);
         } else {
             throw new BadCredentialsException("Incorrect username or password");

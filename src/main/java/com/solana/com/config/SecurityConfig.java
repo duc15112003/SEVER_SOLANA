@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PUBLIC_ENDPOINTS).permitAll() // Không yêu cầu xác thực
-//                        .requestMatchers("/api/staff/**").hasRole("STAFF") // Chỉ Staff được truy cập
+                        .requestMatchers("/api/feedback/all").hasRole("ADMIN") // Chỉ Staff được truy cập
 //                        .requestMatchers("/api/admin/**").hasRole("ADMIN")   // Chỉ Admin được truy cập
                         .anyRequest().authenticated() // Các yêu cầu khác yêu cầu xác thực
                 )

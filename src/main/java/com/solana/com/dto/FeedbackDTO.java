@@ -1,6 +1,5 @@
 package com.solana.com.dto;
 
-
 import java.util.Set;
 
 public class FeedbackDTO {

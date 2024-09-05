@@ -1,6 +1,7 @@
 package com.solana.com.controller;
 
 import com.solana.com.dto.UsersDTO;
+import com.solana.com.model.Users;
 import com.solana.com.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,13 +13,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-//@CrossOrigin(origins = "http://localhost:8081")
+////@CrossOrigin(origins = "http://localhost:8081")
 public class UsersController {
 
     private final UsersService usersService;
 
-    @GetMapping
-    public ResponseEntity<List<UsersDTO>> getAllUsers() {
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Users>> getAllUsers() {
         return ResponseEntity.ok(usersService.getAllUsers());
     }
 

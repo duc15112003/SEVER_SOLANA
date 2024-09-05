@@ -23,6 +23,7 @@ public class IdeasService {
         List<Ideas> list = ideasRepository.findAll();
         return list;
     }
+
     // save idea
     public Ideas save(IdeasDTO ideasDTO){
         Ideas ideas = IdeasMapper.INSTANCE.toIdeas(ideasDTO);

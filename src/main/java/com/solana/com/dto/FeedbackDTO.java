@@ -1,35 +1,95 @@
 package com.solana.com.dto;
 
-import com.solana.com.model.Account;
-import com.solana.com.model.Ideas;
-import com.solana.com.model.Report;
-import lombok.*;
-
-import java.time.LocalDate;
 import java.util.Set;
 
-
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class FeedbackDTO {
-
-
     private Long id;
-
     private String feedback;
-
-    private LocalDate createAt;
-
+    private String createAt;
     private String status;
-
     private Integer rate;
+    private String account;
+    private Long ideaId;
 
-    private Account account;
+    public FeedbackDTO() {
+    }
 
-    private Ideas idea;
+    public FeedbackDTO(Long id, String feedback, String createAt, String status, Integer rate, String account, Long ideaId) {
+        this.id = id;
+        this.feedback = feedback;
+        this.createAt = createAt;
+        this.status = status;
+        this.rate = rate;
+        this.account = account;
+        this.ideaId = ideaId;
+    }
 
-   private Set<Report> reports;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
+    public String getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(String createAt) {
+        this.createAt = createAt;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getRate() {
+        return rate;
+    }
+
+    public void setRate(Integer rate) {
+        this.rate = rate;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public Long getIdeaId() {
+        return ideaId;
+    }
+
+    public void setIdeaId(Long ideaId) {
+        this.ideaId = ideaId;
+    }
+
+    @Override
+    public String toString() {
+        return "FeedbackDTO{" +
+                "id=" + id +
+                ", feedback='" + feedback + '\'' +
+                ", createAt='" + createAt + '\'' +
+                ", status='" + status + '\'' +
+                ", rate=" + rate +
+                ", account='" + account + '\'' +
+                ", ideaId=" + ideaId +
+                '}';
+    }
 }

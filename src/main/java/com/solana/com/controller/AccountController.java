@@ -57,7 +57,7 @@ public class AccountController {
             response = ApiResponse.<AccountDTO>builder()
                     .code(status.value())
                     .message("Successfully created accounts")
-                    .result(accountDTO)
+                    .result(accountD)
                     .build();
         } else {
             status = HttpStatus.BAD_REQUEST;

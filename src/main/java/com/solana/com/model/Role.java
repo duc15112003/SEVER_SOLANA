@@ -14,8 +14,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id", nullable = false, length = 50)
+    private String id;  // Đổi từ Long sang String
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;

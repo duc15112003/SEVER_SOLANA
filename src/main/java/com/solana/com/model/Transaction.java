@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "transactions")
@@ -35,6 +36,7 @@ public class Transaction {
 
     @Column(name = "timestamp")
     private Timestamp timestamp;
+
 
     @Column(name = "block_hash", length = 64)
     private String blockHash;

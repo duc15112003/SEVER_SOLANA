@@ -1,8 +1,16 @@
 package com.solana.com.controller;
 
 
+import com.solana.com.dao.AccountRepository;
+import com.solana.com.dto.AccountDTO;
 import com.solana.com.dto.AuthenticationRequest;
+import com.solana.com.dto.UsersDTO;
+import com.solana.com.model.Account;
+import com.solana.com.model.Users;
+import com.solana.com.respone.ApiResponse;
+import com.solana.com.service.AccountService;
 import com.solana.com.service.JwtUtil;
+import com.solana.com.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +21,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,6 +41,13 @@ public class AuthenticationController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    AccountService accountService;
+    @Autowired
+    UsersService usersService;
+    @Autowired
+    private AccountRepository accountRepository;
+
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
@@ -42,6 +60,11 @@ public class AuthenticationController {
             tokens.put("accessToken", accessToken);
             tokens.put("refreshToken", refreshToken);
 
+            List<String> roles = jwtUtil.extractRoles(accessToken);
+
+            for (String role : roles) {
+                System.out.println("Role: " + role);
+            }
             return ResponseEntity.ok(tokens);
         } else {
             throw new BadCredentialsException("Incorrect username or password");
@@ -70,5 +93,17 @@ public class AuthenticationController {
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<ApiResponse<UsersDTO>> getUserbyUsername(@RequestParam("username") String username) throws Exception {
+            ApiResponse<UsersDTO> response = new ApiResponse<>();
+            AccountDTO accountDTO = accountService.getAccountById(username);
+            System.out.println(accountDTO.getUser().getId());
+            UsersDTO usersDTO = usersService.findUser(accountDTO.getUser().getId());
+            response.setCode(HttpStatus.OK.value());
+            response.setMessage("Success");
+            response.setResult(usersDTO);
+            return ResponseEntity.ok(response);
     }
 }

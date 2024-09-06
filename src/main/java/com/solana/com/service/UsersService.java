@@ -33,6 +33,11 @@ public class UsersService {
         return usersDTO;
     }
 
+    public UsersDTO findUser(Long id) {
+        Users user = usersRepository.findById(id).get();
+        return UsersMapper.INSTANCE.toUsersDto(user);
+    }
+
     public UsersDTO update(UsersDTO usersDTO) {
         Users user = UsersMapper.INSTANCE.toUsers(usersDTO);
         user.setCreateAt(LocalDate.now());

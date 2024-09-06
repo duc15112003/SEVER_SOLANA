@@ -25,7 +25,7 @@ public interface TransactionMapper {
 
     @Named("timestampToString")
     default String timestampToString(Timestamp timestamp){
-        return timestamp == null ? null : FormatDate.FormatTimestampToString(timestamp);
+        return timestamp == null ? null : FormatDate.formatTimestampToString(timestamp);
     }
     @Named("stringToTimestamp")
     default Timestamp stringToTimestamp(String string) {

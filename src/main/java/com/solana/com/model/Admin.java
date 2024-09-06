@@ -42,8 +42,8 @@ public class Admin {
     @Column(name = "createAt", nullable = false)
     private LocalDate createAt;
 
-    @OneToMany(mappedBy = "admin")
-    private Set<Account> accounts;
+    @OneToOne(mappedBy = "admin")
+    private Account accounts;
 
     public Long getId() {
         return id;
@@ -117,11 +117,11 @@ public class Admin {
         this.createAt = createAt;
     }
 
-    public Set<Account> getAccounts() {
+    public Account getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(Set<Account> accounts) {
+    public void setAccounts(Account accounts) {
         this.accounts = accounts;
     }
 }

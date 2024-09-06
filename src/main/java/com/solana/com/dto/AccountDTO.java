@@ -8,8 +8,8 @@ import lombok.*;
 public class AccountDTO {
     private String username;
     private String password;
-    private Long userId;
-    private Long adminId;
+    private Long user;
+    private Long admin;
 
     public String getUsername() {
         return username;
@@ -27,20 +27,20 @@ public class AccountDTO {
         this.password = password;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(Long user) {
+        this.user = user;
     }
 
-    public Long getAdminId() {
-        return adminId;
+    public Long getAdmin() {
+        return admin;
     }
 
-    public void setAdminId(Long adminId) {
-        this.adminId = adminId;
+    public void setAdmin(Long admin) {
+        this.admin = admin;
     }
 
     @Override
@@ -48,8 +48,8 @@ public class AccountDTO {
         return "AccountDTO{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", userId=" + userId +
-                ", adminId=" + adminId +
+                ", user=" + user +
+                ", admin=" + admin +
                 '}';
     }
 }

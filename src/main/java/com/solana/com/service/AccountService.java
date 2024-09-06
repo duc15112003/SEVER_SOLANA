@@ -33,8 +33,8 @@ public class AccountService {
     }
 
     public AccountDTO getAccountById(String id) {
-         Optional<Account> account = accountRepository.findById(id);
-        return  account.map(value->accountMapper.toAccountDTO(account.get())).orElse(null) ;
+        Account accountOpt = accountRepository.findById(id).get();
+        return accountMapper.toAccountDTO(accountOpt);
     }
 
     public AccountDTO save(AccountDTO AccountDTO) {
@@ -45,6 +45,11 @@ public class AccountService {
     public AccountDTO update(AccountDTO AccountDTO) {
         Account account = accountMapper.toAccount(AccountDTO);
         return accountMapper.toAccountDTO(accountRepository.save(account));
+    }
+
+    public Account findAccount(String username) {
+        Account account = accountRepository.findById(username).get();
+        return account;
     }
 
     public boolean delete(String id) {

@@ -7,7 +7,7 @@ import com.solana.com.util.FormatDate;
 import org.mapstruct.*;
 
 import java.sql.Timestamp;
-
+import java.util.List;
 
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
@@ -36,4 +36,9 @@ public interface FeedbackMapper {
     default String accountToString(Account account){
         return account.getUsername();
     }
+
+
+    List<FeedbackDTO> feedbacksToFeedbackDTOs(List<Feedback> feedbacks);
+
+    List<Feedback> feedbackDTOsToFeedbacks(List<FeedbackDTO> feedbackDTOs);
 }

@@ -54,4 +54,9 @@ public class IdeasService {
         IdeasDTO ideasDTO = IdeasMapper.INSTANCE.toIdeasDto(ideas);
         return ideasDTO;
     }
+
+    public List<Ideas> findByUsername(String username){
+        List<Ideas> ideas = ideasRepository.findIdeasByUsername(username);
+        return ideas;
+    }
 }

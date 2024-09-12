@@ -30,16 +30,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         Account account = accountRepository.findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
-        // Lấy danh sách quyền (roles) từ cơ sở dữ liệu
         List<GrantedAuthority> authorities = roleMappingRepository.findByUsername(username)
                 .stream()
-                .map(roleMapping -> new SimpleGrantedAuthority("ROLE_" + roleMapping.getRole().getName())) // Thêm prefix "ROLE_"
+                .map(roleMapping -> new SimpleGrantedAuthority("ROLE_" + roleMapping.getRole().getId())) // Sửa đổi ở đây
                 .collect(Collectors.toList());
 
         return new org.springframework.security.core.userdetails.User(
                 account.getUsername(),
                 account.getPassword(),
-                authorities // Gán quyền cho tài khoản
+                authorities
         );
     }
 }

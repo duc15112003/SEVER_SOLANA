@@ -5,11 +5,14 @@ import com.solana.com.model.Account;
 import com.solana.com.model.Admin;
 import com.solana.com.model.Users;
 import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 @Mapper(componentModel = "spring")
 public interface AccountMapper {
+     AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
     @Mapping(target = "user",ignore = true)
     @Mapping(target = "admin",ignore = true)
     Account toAccount(AccountDTO accountDTO);

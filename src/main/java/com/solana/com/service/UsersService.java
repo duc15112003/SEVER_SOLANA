@@ -45,6 +45,11 @@ public class UsersService {
         return usersMapper.toUsersDTO(usersRepository.save(user));
     }
 
+    public UsersDTO findUser(Long id) {
+        Users user = usersRepository.findById(id).get();
+        return UsersMapper.INSTANCE.toUsersDto(user);
+    }
+
     public UsersDTO update(UsersDTO usersDTO) {
         Users user = usersMapper.toUsers(usersDTO);
         Optional<Users> usersOptional = usersRepository.findById(user.getId());

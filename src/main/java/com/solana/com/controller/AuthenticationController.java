@@ -1,9 +1,11 @@
 package com.solana.com.controller;
 
 
+import com.solana.com.dao.AccountRepository;
 import com.solana.com.dto.AccountDTO;
 import com.solana.com.dto.AuthenticationRequest;
 import com.solana.com.dto.UsersDTO;
+import com.solana.com.respone.ApiResponse;
 import com.solana.com.service.AccountService;
 import com.solana.com.service.JwtUtil;
 import com.solana.com.service.UsersService;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -39,10 +42,11 @@ public class AuthenticationController {
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UsersService usersService;
-
+    AccountService accountService;
     @Autowired
-    private AccountService accountService;
+    UsersService usersService;
+    @Autowired
+    private AccountRepository accountRepository;
 
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
@@ -56,6 +60,11 @@ public class AuthenticationController {
             tokens.put("accessToken", accessToken);
             tokens.put("refreshToken", refreshToken);
 
+            List<String> roles = jwtUtil.extractRoles(accessToken);
+
+            for (String role : roles) {
+                System.out.println("Role: " + role);
+            }
             return ResponseEntity.ok(tokens);
         } else {
             throw new BadCredentialsException("Incorrect username or password");
@@ -84,6 +93,18 @@ public class AuthenticationController {
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<ApiResponse<UsersDTO>> getUserbyUsername(@RequestParam("username") String username) throws Exception {
+            ApiResponse<UsersDTO> response = new ApiResponse<>();
+            AccountDTO accountDTO = accountService.getAccountById(username);
+            System.out.println(accountDTO.getUser().getId());
+            UsersDTO usersDTO = usersService.findUser(accountDTO.getUser().getId());
+            response.setCode(HttpStatus.OK.value());
+            response.setMessage("Success");
+            response.setResult(usersDTO);
+            return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")

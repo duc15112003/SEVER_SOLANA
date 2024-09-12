@@ -47,6 +47,11 @@ public class AccountService {
         return accountMapper.toAccountDTO(accountRepository.save(account));
     }
 
+    public Account findAccount(String username) {
+        Account account = accountRepository.findById(username).get();
+        return account;
+    }
+
     public boolean delete(String id) {
         if(accountRepository.findById(id).isPresent()){
             accountRepository.deleteById(id);

@@ -55,13 +55,10 @@ public class AuthenticationController {
         if (userDetails != null && passwordEncoder.matches(authenticationRequest.getPassword(), userDetails.getPassword())) {
             String accessToken = jwtUtil.generateToken(userDetails);
             String refreshToken = jwtUtil.generateRefreshToken(userDetails);
-
             Map<String, String> tokens = new HashMap<>();
             tokens.put("accessToken", accessToken);
             tokens.put("refreshToken", refreshToken);
-
             List<String> roles = jwtUtil.extractRoles(accessToken);
-
             for (String role : roles) {
                 System.out.println("Role: " + role);
             }
@@ -70,7 +67,6 @@ public class AuthenticationController {
             throw new BadCredentialsException("Incorrect username or password");
         }
     }
-
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> tokenRequest) {
         String refreshToken = tokenRequest.get("refreshToken");

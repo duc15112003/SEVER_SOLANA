@@ -33,8 +33,8 @@ public class AccountService {
     }
 
     public AccountDTO getAccountById(String id) {
-        Account accountOpt = accountRepository.findById(id).get();
-        return accountMapper.toAccountDTO(accountOpt);
+         Optional<Account> account = accountRepository.findById(id);
+        return  account.map(value->accountMapper.toAccountDTO(account.get())).orElse(null) ;
     }
 
     public AccountDTO save(AccountDTO AccountDTO) {

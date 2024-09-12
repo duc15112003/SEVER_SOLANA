@@ -19,7 +19,6 @@ public interface AccountMapper {
 
     @Mapping(target = "user",qualifiedByName="userToLong")
     @Mapping(target = "admin",qualifiedByName = "adminToLong")
-
     AccountDTO toAccountDTO(Account account);
 
     @Named("userToLong")

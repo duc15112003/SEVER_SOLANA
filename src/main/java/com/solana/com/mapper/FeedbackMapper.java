@@ -7,6 +7,8 @@ import com.solana.com.util.FormatDate;
 import org.mapstruct.*;
 
 import java.sql.Timestamp;
+import java.util.List;
+
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
@@ -27,11 +29,16 @@ public interface FeedbackMapper {
 
     @Named("timestampToString")
     default String timestampToString(Timestamp timestamp) {
-        return timestamp == null ? null : FormatDate.formatTimestampToString(timestamp) ;
+        return timestamp == null ? null : FormatDate.FormatTimestampToString(timestamp) ;
     }
 
     @Named("accountToString")
     default String accountToString(Account account){
         return account.getUsername();
     }
+
+
+    List<FeedbackDTO> feedbacksToFeedbackDTOs(List<Feedback> feedbacks);
+
+    List<Feedback> feedbackDTOsToFeedbacks(List<FeedbackDTO> feedbackDTOs);
 }

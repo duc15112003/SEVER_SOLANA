@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers(PUBLIC_ENDPOINTS).permitAll() // Không yêu cầu xác thực
 //                        .requestMatchers("/api/feedback/all").hasRole("ADMIN") // Chỉ Staff được truy cập
 //                        .requestMatchers("/api/admin/**").hasRole("ADMIN")   // Chỉ Admin được truy cập
-                        .anyRequest().permitAll() // Các yêu cầu khác yêu cầu xác thực
+                        .anyRequest().authenticated()// Các yêu cầu khác yêu cầu xác thực
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

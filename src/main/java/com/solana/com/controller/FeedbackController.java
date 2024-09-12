@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/feedback")
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 public class FeedbackController {
     @Autowired
     FeedbackService feedbackService;

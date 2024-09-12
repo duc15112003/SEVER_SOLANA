@@ -4,8 +4,8 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
+
 @Builder
 public class UsersDTO {
     private Long id;
@@ -18,6 +18,8 @@ public class UsersDTO {
 
     private LocalDate birthday;
 
+    private String email;
+
     private String address;
 
     private String phoneNumber;
@@ -25,6 +27,30 @@ public class UsersDTO {
     private String publicKey;
 
     private String createAt;
+
+    public UsersDTO(Long id, String firstname, String lastname, String avatar, LocalDate birthday, String email, String address, String phoneNumber, String publicKey, String createAt) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.avatar = avatar;
+        this.birthday = birthday;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.publicKey = publicKey;
+        this.createAt = createAt;
+    }
+
+    public UsersDTO() {
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Long getId() {
         return id;

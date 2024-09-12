@@ -29,16 +29,19 @@ public class Users {
     @Column(name = "avatar", nullable = false, length = 255)
     private String avatar;
 
+    @Column(name="email", nullable = false,length = 255)
+    private String email;
+
     @Column(name = "birthday", nullable = false)
     private LocalDate birthday;
 
-    @Column(name = "address", nullable = false, length = 255)
+    @Column(name = "address",nullable = true, length = 255)
     private String address;
 
     @Column(name = "phone_number", nullable = false, length = 13)
     private String phoneNumber;
 
-    @Column(name = "public_key", length = 255)
+    @Column(name = "public_key",nullable = true, length = 255)
     private String publicKey;
 
     @Column(name = "createAt", nullable = false)
@@ -77,6 +80,14 @@ public class Users {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public LocalDate getBirthday() {

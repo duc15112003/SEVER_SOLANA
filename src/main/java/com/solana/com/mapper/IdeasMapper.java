@@ -13,18 +13,18 @@ import java.time.LocalDateTime;
 @Mapper(componentModel = "spring")
 public interface IdeasMapper {
 
-    @Mapping(target = "createdAt", qualifiedByName = "defaultTimestamp")
+    @Mapping(target = "createAt", qualifiedByName = "defaultTimestamp")
     @Mapping(target = "updateAt", qualifiedByName = "defaultTimestamp")
     @Mapping(target = "endAt", qualifiedByName = "defaultTimestamp")
     Ideas toIdeas(IdeasDTO ideasDTO);
 
-    @Mapping(target = "createdAt", qualifiedByName = "timestampToString")
+    @Mapping(target = "createAt", qualifiedByName = "timestampToString")
     @Mapping(target = "updateAt", qualifiedByName = "timestampToString")
     @Mapping(target = "endAt", qualifiedByName = "timestampToString")
     IdeasDTO toIdeasDTO(Ideas ideas);
 
     @Named("defaultTimestamp")
-    default Timestamp defaultTimestamp() {
+    default Timestamp defaultTimestamp(String string) {
         return Timestamp.valueOf(LocalDateTime.now());
     }
 

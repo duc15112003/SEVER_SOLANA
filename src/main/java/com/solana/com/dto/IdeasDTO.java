@@ -11,7 +11,7 @@ public class IdeasDTO {
     private String description;
     private String status;
     private String image;
-    private String createdAt;
+    private String createAt;
     private String updateAt;
     private String endAt;
     private Long countFeedback;
@@ -58,12 +58,12 @@ public class IdeasDTO {
         this.image = image;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getCreateAt() {
+        return createAt;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setCreateAt(String createAt) {
+        this.createAt = createAt;
     }
 
     public String getUpdateAt() {
@@ -114,9 +114,9 @@ public class IdeasDTO {
                 ", description='" + description + '\'' +
                 ", status='" + status + '\'' +
                 ", image='" + image + '\'' +
-                ", createdAt=" + createdAt +
-                ", updateAt=" + updateAt +
-                ", endAt=" + endAt +
+                ", createAt='" + createAt + '\'' +
+                ", updateAt='" + updateAt + '\'' +
+                ", endAt='" + endAt + '\'' +
                 ", countFeedback=" + countFeedback +
                 ", awardForOneFeedback=" + awardForOneFeedback +
                 ", accountUsername='" + accountUsername + '\'' +

@@ -65,5 +65,7 @@ public class UsersService {
             return false;
         }
     }
-
+    public boolean existsByEmail(String email){
+        return usersRepository.existsByEmail(email);
+    }
 }

@@ -4,7 +4,6 @@ import com.solana.com.dto.AdminDTO;
 import com.solana.com.model.Admin;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
 import static org.mapstruct.ReportingPolicy.WARN;
 
 @Mapper(componentModel = "spring",unmappedSourcePolicy = WARN)

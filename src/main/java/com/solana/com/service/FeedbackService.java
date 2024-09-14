@@ -52,9 +52,9 @@ public class FeedbackService {
 
     public FeedbackDTO save(FeedbackDTO feedbackDTO) {
         Feedback feedback = feedbackMapper.toFeedback(feedbackDTO);
-        feedback.setCreateAt(Timestamp.valueOf(LocalDateTime.now()));
-        feedback.setAccount(accountRepository.findById(feedbackDTO.getAccount()).orElse(null));
-        feedback.setIdea(ideasRepository.findById(feedbackDTO.getIdeaId()).orElse(null));
+        feedback.setCreateAt(LocalDateTime.now());
+        feedback.setAccount(accountRepository.findById(feedbackDTO.getAccount().getUsername()).orElse(null));
+        feedback.setIdea(ideasRepository.findById(feedbackDTO.getIdea().getId()).orElse(null));
         if (feedback.getAccount() == null || feedback.getIdea() == null) {
             return null;
         } else {
@@ -64,8 +64,8 @@ public class FeedbackService {
 
     public FeedbackDTO update(FeedbackDTO feedbackDTO) {
         Feedback feedback = feedbackMapper.toFeedback(feedbackDTO);
-        feedback.setAccount(accountRepository.findById(feedbackDTO.getAccount()).orElse(null));
-        feedback.setIdea(ideasRepository.findById(feedbackDTO.getIdeaId()).orElse(null));
+        feedback.setAccount(accountRepository.findById(feedbackDTO.getAccount().getUsername()).orElse(null));
+        feedback.setIdea(ideasRepository.findById(feedbackDTO.getIdea().getId()).orElse(null));
         if (feedback.getAccount() == null || feedback.getIdea() == null) {
             return null;
         } else {

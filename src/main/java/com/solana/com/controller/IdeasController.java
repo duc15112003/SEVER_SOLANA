@@ -4,6 +4,7 @@ import com.solana.com.dto.IdeasDTO;
 import com.solana.com.respone.ApiResponse;
 import com.solana.com.service.IdeasService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class IdeasController {
-
+    @Autowired
     private final IdeasService ideasService;
 
     @GetMapping("/all")

@@ -1,19 +1,14 @@
 package com.solana.com.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Table
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +18,7 @@ public class Feedback {
     private String feedback;
 
     @Column(name = "createAt")
-    private Timestamp createAt;
+    private LocalDateTime createAt;
 
     @Column(name = "status", length = 10)
     private String status;
@@ -58,11 +53,11 @@ public class Feedback {
         this.feedback = feedback;
     }
 
-    public Timestamp getCreateAt() {
+    public LocalDateTime getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(Timestamp createAt) {
+    public void setCreateAt(LocalDateTime createAt) {
         this.createAt = createAt;
     }
 

@@ -1,14 +1,15 @@
 package com.solana.com.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
+@Getter
+@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,10 +25,10 @@ public class Report {
     private String reply;
 
     @Column(name = "createAt")
-    private LocalDate createAt;
+    private LocalDateTime createAt;
 
     @Column(name = "replyAt")
-    private LocalDate replyAt;
+    private LocalDateTime replyAt;
 
     @Column(name = "status", length = 10)
     private String status;

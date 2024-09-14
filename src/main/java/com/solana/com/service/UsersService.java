@@ -10,7 +10,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +40,13 @@ public class UsersService {
     public UsersDTO save(UsersDTO usersDTO) {
         usersDTO.setId(null);
         Users user = usersMapper.toUsers(usersDTO);
-        user.setCreateAt(Timestamp.valueOf(LocalDateTime.now()));
+        user.setCreateAt(LocalDateTime.now());
         return usersMapper.toUsersDTO(usersRepository.save(user));
     }
 
     public UsersDTO findUser(Long id) {
         Users user = usersRepository.findById(id).get();
-        return UsersMapper.INSTANCE.toUsersDto(user);
+        return usersMapper.toUsersDTO(user);
     }
 
     public UsersDTO update(UsersDTO usersDTO) {

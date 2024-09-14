@@ -1,15 +1,15 @@
 package com.solana.com.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Table
+@Getter
+@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,10 +25,10 @@ public class IdeaCategory {
     private String description;
 
     @Column(name = "createAt", nullable = false)
-    private LocalDate createAt;
+    private LocalDateTime createAt;
 
     @Column(name = "deleteAt", nullable = false)
-    private LocalDate deleteAt;
+    private LocalDateTime deleteAt;
 
     @OneToMany(mappedBy = "category")
     private Set<IdeaCategoryMapping> ideaCategoryMappings;

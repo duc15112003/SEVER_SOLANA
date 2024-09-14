@@ -1,30 +1,18 @@
 package com.solana.com.dto;
 
-public class TransactionDTO {
-        private Long id;
-        private String transactionType;
-        private String description;
-        private String status;
-        private Long amount;
-        private Long feeTransaction;
-        private String timestamp;
-        private String blockHash;
-        private String account;
-        
-    public TransactionDTO() {
-    }
+import lombok.*;
 
-    public TransactionDTO(Long id, String transactionType, String description, String status, Long amount, Long feeTransaction, String timestamp, String blockHash, String account) {
-        this.id = id;
-        this.transactionType = transactionType;
-        this.description = description;
-        this.status = status;
-        this.amount = amount;
-        this.feeTransaction = feeTransaction;
-        this.timestamp = timestamp;
-        this.blockHash = blockHash;
-        this.account = account;
-    }
+@Data
+public class TransactionDTO {
+    private Long id;
+    private String transactionType;
+    private String description;
+    private String status;
+    private Long amount;
+    private Long feeTransaction;
+    private String timestamp;
+    private String blockHash;
+    private AccountDTO account;
 
     public Long getId() {
         return id;
@@ -90,26 +78,11 @@ public class TransactionDTO {
         this.blockHash = blockHash;
     }
 
-    public String getAccount() {
+    public AccountDTO getAccount() {
         return account;
     }
 
-    public void setAccount(String account) {
+    public void setAccount(AccountDTO account) {
         this.account = account;
-    }
-
-    @Override
-    public String toString() {
-        return "TransactionDTO{" +
-                "id=" + id +
-                ", transactionType='" + transactionType + '\'' +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
-                ", amount=" + amount +
-                ", feeTransaction=" + feeTransaction +
-                ", timestamp='" + timestamp + '\'' +
-                ", blockHash='" + blockHash + '\'' +
-                ", account='" + account + '\'' +
-                '}';
     }
 }

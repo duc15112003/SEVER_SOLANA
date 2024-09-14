@@ -9,8 +9,8 @@ import lombok.*;
 public class AccountDTO {
     private String username;
     private String password;
-    private Long user;
-    private Long admin;
+    private UsersDTO user;
+    private AdminDTO admin;
 
     public String getUsername() {
         return username;
@@ -28,29 +28,20 @@ public class AccountDTO {
         this.password = password;
     }
 
-    public Long getUser() {
+    public UsersDTO getUser() {
         return user;
     }
 
-    public void setUser(Long user) {
+    public void setUser(UsersDTO user) {
         this.user = user;
     }
 
-    public Long getAdmin() {
+    public AdminDTO getAdmin() {
         return admin;
     }
 
-    public void setAdmin(Long admin) {
+    public void setAdmin(AdminDTO admin) {
         this.admin = admin;
     }
 
-    @Override
-    public String toString() {
-        return "AccountDTO{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", user=" + user +
-                ", admin=" + admin +
-                '}';
-    }
 }

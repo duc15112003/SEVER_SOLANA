@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class NotificationService {
 
     public NotificationDTO update(NotificationDTO notificationDTO) {
         Notification notification = NotificationMapper.INSTANCE.toNotification(notificationDTO);
-        notification.setCreatedAt(LocalDate.now());
+        notification.setCreatedAt(LocalDateTime.now());
         return NotificationMapper.INSTANCE.toNotificationDTO(notificationRepository.save(notification));
     }
 

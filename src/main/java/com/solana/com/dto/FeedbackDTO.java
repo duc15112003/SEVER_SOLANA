@@ -1,28 +1,18 @@
 package com.solana.com.dto;
 
-import java.util.Set;
+import lombok.*;
 
+import java.time.LocalDateTime;
+
+@Data
 public class FeedbackDTO {
     private Long id;
     private String feedback;
-    private String createAt;
+    private LocalDateTime createAt;
     private String status;
     private Integer rate;
-    private String account;
-    private Long ideaId;
-
-    public FeedbackDTO() {
-    }
-
-    public FeedbackDTO(Long id, String feedback, String createAt, String status, Integer rate, String account, Long ideaId) {
-        this.id = id;
-        this.feedback = feedback;
-        this.createAt = createAt;
-        this.status = status;
-        this.rate = rate;
-        this.account = account;
-        this.ideaId = ideaId;
-    }
+    private AccountDTO account;
+    private IdeasDTO idea;
 
     public Long getId() {
         return id;
@@ -40,11 +30,11 @@ public class FeedbackDTO {
         this.feedback = feedback;
     }
 
-    public String getCreateAt() {
+    public LocalDateTime getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(String createAt) {
+    public void setCreateAt(LocalDateTime createAt) {
         this.createAt = createAt;
     }
 
@@ -64,32 +54,19 @@ public class FeedbackDTO {
         this.rate = rate;
     }
 
-    public String getAccount() {
+    public AccountDTO getAccount() {
         return account;
     }
 
-    public void setAccount(String account) {
+    public void setAccount(AccountDTO account) {
         this.account = account;
     }
 
-    public Long getIdeaId() {
-        return ideaId;
+    public IdeasDTO getIdea() {
+        return idea;
     }
 
-    public void setIdeaId(Long ideaId) {
-        this.ideaId = ideaId;
-    }
-
-    @Override
-    public String toString() {
-        return "FeedbackDTO{" +
-                "id=" + id +
-                ", feedback='" + feedback + '\'' +
-                ", createAt='" + createAt + '\'' +
-                ", status='" + status + '\'' +
-                ", rate=" + rate +
-                ", account='" + account + '\'' +
-                ", ideaId=" + ideaId +
-                '}';
+    public void setIdea(IdeasDTO idea) {
+        this.idea = idea;
     }
 }

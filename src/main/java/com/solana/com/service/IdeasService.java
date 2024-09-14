@@ -41,7 +41,7 @@ public class IdeasService {
     public IdeasDTO save(IdeasDTO ideasDTO) {
         ideasDTO.setId(null);
         Ideas idea = ideasMapper.toIdeas(ideasDTO);
-        idea.setCreateAt(Timestamp.valueOf(LocalDateTime.now()));
+        idea.setCreateAt(LocalDateTime.now());
         return ideasMapper.toIdeasDTO(ideasRepository.save(idea));
     }
 

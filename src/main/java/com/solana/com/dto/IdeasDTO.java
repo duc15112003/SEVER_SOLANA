@@ -1,22 +1,22 @@
 package com.solana.com.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+import java.time.LocalDateTime;
+@Data
 public class IdeasDTO {
     private Long id;
     private String title;
     private String description;
     private String status;
     private String image;
-    private String createAt;
-    private String updateAt;
-    private String endAt;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
+    private LocalDateTime endAt;
     private Long countFeedback;
     private Long awardForOneFeedback;
-    private String accountUsername;
+    private AccountDTO account;
 
     public Long getId() {
         return id;
@@ -58,27 +58,27 @@ public class IdeasDTO {
         this.image = image;
     }
 
-    public String getCreateAt() {
+    public LocalDateTime getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(String createAt) {
+    public void setCreateAt(LocalDateTime createAt) {
         this.createAt = createAt;
     }
 
-    public String getUpdateAt() {
+    public LocalDateTime getUpdateAt() {
         return updateAt;
     }
 
-    public void setUpdateAt(String updateAt) {
+    public void setUpdateAt(LocalDateTime updateAt) {
         this.updateAt = updateAt;
     }
 
-    public String getEndAt() {
+    public LocalDateTime getEndAt() {
         return endAt;
     }
 
-    public void setEndAt(String endAt) {
+    public void setEndAt(LocalDateTime endAt) {
         this.endAt = endAt;
     }
 
@@ -98,28 +98,11 @@ public class IdeasDTO {
         this.awardForOneFeedback = awardForOneFeedback;
     }
 
-    public String getAccountUsername() {
-        return accountUsername;
+    public AccountDTO getAccount() {
+        return account;
     }
 
-    public void setAccountUsername(String accountUsername) {
-        this.accountUsername = accountUsername;
-    }
-
-    @Override
-    public String toString() {
-        return "IdeasDTO{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
-                ", image='" + image + '\'' +
-                ", createAt='" + createAt + '\'' +
-                ", updateAt='" + updateAt + '\'' +
-                ", endAt='" + endAt + '\'' +
-                ", countFeedback=" + countFeedback +
-                ", awardForOneFeedback=" + awardForOneFeedback +
-                ", accountUsername='" + accountUsername + '\'' +
-                '}';
+    public void setAccount(AccountDTO account) {
+        this.account = account;
     }
 }

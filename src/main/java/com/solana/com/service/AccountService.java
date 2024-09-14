@@ -10,7 +10,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,8 +36,8 @@ public class AccountService {
         return  account.map(value->accountMapper.toAccountDTO(account.get())).orElse(null) ;
     }
 
-    public AccountDTO save(AccountDTO AccountDTO) {
-        Account account = accountMapper.toAccount(AccountDTO);
+    public AccountDTO save(AccountDTO accountDTO) {
+        Account account = accountMapper.toAccount(accountDTO);
         return accountMapper.toAccountDTO(accountRepository.save(account));
     }
 

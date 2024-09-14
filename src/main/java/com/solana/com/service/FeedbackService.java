@@ -6,6 +6,7 @@ import com.solana.com.dao.IdeasRepository;
 import com.solana.com.dto.FeedbackDTO;
 import com.solana.com.mapper.FeedbackMapper;
 import com.solana.com.model.Feedback;
+import com.solana.com.model.Ideas;
 import com.solana.com.util.FormatDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FeedbackService {
@@ -30,6 +32,7 @@ public class FeedbackService {
 
     @Autowired
     private FeedbackMapper feedbackMapper;
+
 
     public Page<FeedbackDTO> getAll(PageRequest pageRequest) {
         Page<Feedback> feedbackList = feedbackRepository.findAll(pageRequest);
@@ -68,6 +71,16 @@ public class FeedbackService {
         } else {
             return feedbackMapper.toFeedbackDTO(feedbackRepository.save(feedback));
         }
+    }
+
+    public List<FeedbackDTO> findByUsername(String username) {
+        // Tìm danh sách Feedback từ repository
+        List<Feedback> feedbacks = feedbackRepository.findFeedbackByUsername(username);
+
+        // Chuyển đổi danh sách Feedback thành danh sách FeedbackDTO
+        return feedbacks.stream()
+                .map(feedback -> feedbackMapper.toFeedbackDTO(feedback))
+                .collect(Collectors.toList());
     }
 
     public boolean delete(Long id) {

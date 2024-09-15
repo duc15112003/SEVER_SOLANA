@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class IdeasService {
     public IdeasDTO save(IdeasDTO ideasDTO) {
         ideasDTO.setId(null);
         Ideas idea = ideasMapper.toIdeas(ideasDTO);
-        idea.setCreateAt(LocalDateTime.now());
+        idea.setCreatedAt(LocalDate.now());
         return ideasMapper.toIdeasDTO(ideasRepository.save(idea));
     }
 
@@ -49,7 +50,7 @@ public class IdeasService {
         Ideas idea = ideasMapper.toIdeas(ideasDTO);
         Optional<Ideas> ideasOptional = ideasRepository.findById(idea.getId());
         if (ideasOptional.isPresent()) {
-            idea.setCreateAt(ideasOptional.get().getCreateAt());
+            idea.setCreatedAt(ideasOptional.get().getCreatedAt());
             return ideasMapper.toIdeasDTO(ideasRepository.save(idea));
         }else{
             return null;

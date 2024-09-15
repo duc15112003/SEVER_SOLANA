@@ -31,10 +31,14 @@ public class AccountService {
         return  new PageImpl<>(accountDTOlist, accountPage.getPageable(), accountPage.getTotalElements());
     }
 
-    public AccountDTO getAccountById(String id) {
-         Optional<Account> account = accountRepository.findById(id);
-        return  account.map(value->accountMapper.toAccountDTO(account.get())).orElse(null) ;
+    public AccountDTO getAccountById(String username) {
+        Account account = accountRepository.findByUsername(username);
+        if (account == null) {
+            return null; // hoặc ném một ngoại lệ nếu cần
+        }
+        return accountMapper.toAccountDTO(account);
     }
+
 
     public AccountDTO save(AccountDTO accountDTO) {
         Account account = accountMapper.toAccount(accountDTO);
@@ -59,5 +63,4 @@ public class AccountService {
             return false;
         }
     }
-    
 }

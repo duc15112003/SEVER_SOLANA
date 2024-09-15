@@ -26,7 +26,7 @@ public class UsersService {
         Page<Users> userPage = usersRepository.findAll(pageRequest);
         List<UsersDTO> userDTOlist = new ArrayList<UsersDTO>();
         for (Users user : userPage.getContent()) {
-            UsersDTO userDTO = usersMapper.toUsersDTO(user);
+            UsersDTO userDTO = usersMapper.toUsersDto(user);
             userDTOlist.add(userDTO);
         }
         return new PageImpl<>(userDTOlist, userPage.getPageable(), userPage.getTotalElements());
@@ -34,19 +34,20 @@ public class UsersService {
 
     public UsersDTO getUsersById(Long id) {
         Optional<Users> users = usersRepository.findById(id);
-        return users.map(value -> usersMapper.toUsersDTO(users.get())).orElse(null);
+        return users.map(value -> usersMapper.toUsersDto(users.get())).orElse(null);
     }
 
     public UsersDTO save(UsersDTO usersDTO) {
         usersDTO.setId(null);
         Users user = usersMapper.toUsers(usersDTO);
         user.setCreateAt(LocalDateTime.now());
-        return usersMapper.toUsersDTO(usersRepository.save(user));
+        return usersMapper.toUsersDto(usersRepository.save(user));
     }
 
     public UsersDTO findUser(Long id) {
+        System.out.println(id);
         Users user = usersRepository.findById(id).get();
-        return usersMapper.toUsersDTO(user);
+        return usersMapper.toUsersDto(user);
     }
 
     public UsersDTO update(UsersDTO usersDTO) {
@@ -54,7 +55,7 @@ public class UsersService {
         Optional<Users> usersOptional = usersRepository.findById(user.getId());
         if (usersOptional.isPresent()) {
             user.setCreateAt(usersOptional.get().getCreateAt());
-            return usersMapper.toUsersDTO(usersRepository.save(user));
+            return usersMapper.toUsersDto(usersRepository.save(user));
         }else{
             return null;
         }

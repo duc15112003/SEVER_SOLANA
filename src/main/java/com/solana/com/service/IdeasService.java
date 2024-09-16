@@ -10,61 +10,72 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class IdeasService {
     @Autowired
-    IdeasRepository ideasRepository;
+    private IdeasRepository ideasRepository;
+
     @Autowired
-    IdeasMapper ideasMapper;
+    private IdeasMapper ideasMapper;
 
     public Page<IdeasDTO> getAll(PageRequest pageRequest) {
         Page<Ideas> ideaPage = ideasRepository.findAll(pageRequest);
-        List<IdeasDTO> ideaDTOlist = new ArrayList<IdeasDTO>();
-        for (Ideas idea : ideaPage.getContent()) {
-            IdeasDTO ideaDTO = ideasMapper.toIdeasDTO(idea);
-            ideaDTOlist.add(ideaDTO);
-        }
-        return new PageImpl<>(ideaDTOlist, ideaPage.getPageable(), ideaPage.getTotalElements());
+        List<IdeasDTO> ideaDTOlist = ideaPage.getContent().stream()
+                .map(ideasMapper::toIdeasDTO)
+                .collect(Collectors.toList());
+        return new PageImpl<>(ideaDTOlist, pageRequest, ideaPage.getTotalElements());
     }
 
     public IdeasDTO getIdeasById(Long id) {
-        Optional<Ideas> ideas = ideasRepository.findById(id);
-        return ideas.map(value -> ideasMapper.toIdeasDTO(ideas.get())).orElse(null);
+        return ideasRepository.findById(id)
+                .map(ideasMapper::toIdeasDTO)
+                .orElse(null); // Consider throwing a custom exception if not found
     }
 
     public IdeasDTO save(IdeasDTO ideasDTO) {
-        ideasDTO.setId(null);
+        // Ensure id is null for new entities
+        if (ideasDTO.getId() != null) {
+            throw new IllegalArgumentException("ID should be null for new ideas");
+        }
+
+        // Convert DTO to entity and set creation date
         Ideas idea = ideasMapper.toIdeas(ideasDTO);
         idea.setCreatedAt(LocalDate.now());
+
+        // Save the entity and convert back to DTO
         return ideasMapper.toIdeasDTO(ideasRepository.save(idea));
     }
 
     public IdeasDTO update(IdeasDTO ideasDTO) {
-        Ideas idea = ideasMapper.toIdeas(ideasDTO);
-        Optional<Ideas> ideasOptional = ideasRepository.findById(idea.getId());
-        if (ideasOptional.isPresent()) {
-            idea.setCreatedAt(ideasOptional.get().getCreatedAt());
-            return ideasMapper.toIdeasDTO(ideasRepository.save(idea));
-        }else{
-            return null;
+        if (ideasDTO.getId() == null) {
+            throw new IllegalArgumentException("ID must be provided for update");
         }
 
+        // Find the existing idea
+        Optional<Ideas> existingIdeaOptional = ideasRepository.findById(ideasDTO.getId());
+        if (existingIdeaOptional.isPresent()) {
+            Ideas existingIdea = existingIdeaOptional.get();
+            Ideas updatedIdea = ideasMapper.toIdeas(ideasDTO);
+
+            // Preserve the original creation date
+            updatedIdea.setCreatedAt(existingIdea.getCreatedAt());
+
+            return ideasMapper.toIdeasDTO(ideasRepository.save(updatedIdea));
+        }
+
+        return null; // Consider throwing a custom exception if not found
     }
 
     public boolean delete(Long id) {
-        if (ideasRepository.findById(id).isPresent()) {
+        if (ideasRepository.existsById(id)) {
             ideasRepository.deleteById(id);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
-
 }

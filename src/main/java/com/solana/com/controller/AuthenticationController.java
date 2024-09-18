@@ -93,14 +93,38 @@ public class AuthenticationController {
 
     @GetMapping("/profile")
     public ResponseEntity<ApiResponse<UsersDTO>> getUserbyUsername(@RequestParam("username") String username) throws Exception {
-            ApiResponse<UsersDTO> response = new ApiResponse<>();
+        ApiResponse<UsersDTO> response = new ApiResponse<>();
+        try {
             AccountDTO accountDTO = accountService.getAccountById(username);
+            System.out.println(accountDTO.getUsername());
+            // Kiểm tra nếu accountDTO hoặc user trong accountDTO là null
+            if (accountDTO == null) {
+                response.setCode(HttpStatus.NOT_FOUND.value());
+                response.setMessage("Account or User not found");
+                return ResponseEntity.ok(response);
+            }
+
             UsersDTO usersDTO = usersService.findUser(accountDTO.getUser().getId());
+
+            // Kiểm tra nếu usersDTO là null
+            if (usersDTO == null) {
+                response.setCode(HttpStatus.NOT_FOUND.value());
+                response.setMessage("User details not found");
+                return ResponseEntity.ok(response);
+            }
+
             response.setCode(HttpStatus.OK.value());
             response.setMessage("Success");
             response.setResult(usersDTO);
             return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setMessage("An error occurred");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
+
+
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestParam(value = "firstname") String firstname,

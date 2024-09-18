@@ -3,10 +3,8 @@ package com.solana.com.mapper;
 import com.solana.com.dto.AccountDTO;
 import com.solana.com.model.Account;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",uses = {UsersMapper.class, AdminMapper.class})
 public interface AccountMapper {
 
 //    @Mapping(source = "user", target = "user")

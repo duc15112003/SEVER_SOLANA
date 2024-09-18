@@ -45,7 +45,7 @@ public class IdeasService {
 
         // Convert DTO to entity and set creation date
         Ideas idea = ideasMapper.toIdeas(ideasDTO);
-        idea.setCreatedAt(LocalDate.now());
+        idea.setCreateAt(LocalDate.now());
 
         // Save the entity and convert back to DTO
         return ideasMapper.toIdeasDTO(ideasRepository.save(idea));
@@ -63,7 +63,7 @@ public class IdeasService {
             Ideas updatedIdea = ideasMapper.toIdeas(ideasDTO);
 
             // Preserve the original creation date
-            updatedIdea.setCreatedAt(existingIdea.getCreatedAt());
+            updatedIdea.setCreateAt(existingIdea.getCreateAt());
 
             return ideasMapper.toIdeasDTO(ideasRepository.save(updatedIdea));
         }

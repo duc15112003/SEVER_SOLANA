@@ -1,11 +1,9 @@
 package com.solana.com.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -30,14 +28,14 @@ public class Ideas {
     @Column(name = "image", nullable = false, length = 255)
     private String image;
 
-    @Column(name = "CreateAt", nullable = false)
-    private Timestamp createAt;
+    @Column(name = "CreatedAt", nullable = false)
+    private LocalDate createAt;
 
     @Column(name = "updateAt")
-    private Timestamp updateAt;
+    private LocalDate updateAt;
 
     @Column(name = "endAt", nullable = false)
-    private Timestamp endAt;
+    private LocalDate endAt;
 
     @Column(name = "count_feedback")
     private Long countFeedback;
@@ -98,27 +96,27 @@ public class Ideas {
         this.image = image;
     }
 
-    public Timestamp getCreateAt() {
+    public LocalDate getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(Timestamp createAt) {
+    public void setCreateAt(LocalDate createAt) {
         this.createAt = createAt;
     }
 
-    public Timestamp getUpdateAt() {
+    public LocalDate getUpdateAt() {
         return updateAt;
     }
 
-    public void setUpdateAt(Timestamp updateAt) {
+    public void setUpdateAt(LocalDate updateAt) {
         this.updateAt = updateAt;
     }
 
-    public Timestamp getEndAt() {
+    public LocalDate getEndAt() {
         return endAt;
     }
 
-    public void setEndAt(Timestamp endAt) {
+    public void setEndAt(LocalDate endAt) {
         this.endAt = endAt;
     }
 

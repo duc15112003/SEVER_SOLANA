@@ -1,6 +1,5 @@
 package com.solana.com.controller;
 
-
 import com.solana.com.dao.AccountRepository;
 import com.solana.com.dto.AccountDTO;
 import com.solana.com.dto.AuthenticationRequest;
@@ -10,13 +9,10 @@ import com.solana.com.service.AccountService;
 import com.solana.com.service.JwtUtil;
 import com.solana.com.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -93,15 +89,38 @@ public class AuthenticationController {
 
     @GetMapping("/profile")
     public ResponseEntity<ApiResponse<UsersDTO>> getUserbyUsername(@RequestParam("username") String username) throws Exception {
-            ApiResponse<UsersDTO> response = new ApiResponse<>();
+        ApiResponse<UsersDTO> response = new ApiResponse<>();
+        try {
             AccountDTO accountDTO = accountService.getAccountById(username);
-            System.out.println(accountDTO.getUser().getId());
+            System.out.println(accountDTO.getUsername());
+            // Kiểm tra nếu accountDTO hoặc user trong accountDTO là null
+            if (accountDTO == null) {
+                response.setCode(HttpStatus.NOT_FOUND.value());
+                response.setMessage("Account or User not found");
+                return ResponseEntity.ok(response);
+            }
+
             UsersDTO usersDTO = usersService.findUser(accountDTO.getUser().getId());
+
+            // Kiểm tra nếu usersDTO là null
+            if (usersDTO == null) {
+                response.setCode(HttpStatus.NOT_FOUND.value());
+                response.setMessage("User details not found");
+                return ResponseEntity.ok(response);
+            }
+
             response.setCode(HttpStatus.OK.value());
             response.setMessage("Success");
             response.setResult(usersDTO);
             return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setMessage("An error occurred");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
+
+
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestParam(value = "firstname") String firstname,
@@ -132,8 +151,9 @@ public class AuthenticationController {
         }
 
         try {
-            UsersDTO usersDTO = usersService.save(new UsersDTO(null, firstname, lastname, "defaultAvatar", birthday, email, "", phonenumber, "", ""));
-            accountService.save(new AccountDTO(username, passwordEncoder.encode(password), usersDTO.getId(), null));
+//            UsersDTO usersDTO = usersService.save(new UsersDTO(null, firstname, lastname, "defaultAvatar", birthday, email, "", phonenumber, "", ""));
+//            accountService.save(new AccountDTO(username, passwordEncoder.encode(password), usersDTO.getId(), null));
+
             return ResponseEntity.status(HttpStatus.OK).body("Successful register");
         } catch (Exception e) {
             e.printStackTrace();

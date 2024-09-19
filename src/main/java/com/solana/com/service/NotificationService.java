@@ -5,48 +5,57 @@ import com.solana.com.dto.NotificationDTO;
 import com.solana.com.mapper.NotificationMapper;
 import com.solana.com.model.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NotificationService {
     @Autowired
     private NotificationRepository notificationRepository;
+    @Autowired
+    private NotificationMapper notificationMapper;
 
-    public List<NotificationDTO> getAllNotifications() {
-        List<Notification> notifications = notificationRepository.findAll();
-        List<NotificationDTO> notificationDTOs = new ArrayList<NotificationDTO>();
-        for (Notification notification : notifications) {
-            NotificationDTO notificationDTO = NotificationMapper.INSTANCE.toNotificationDTO(notification);
-            notificationDTOs.add(notificationDTO);
+    public Page<NotificationDTO> getAll(PageRequest pageRequest) {
+        Page<Notification> notificationPage = notificationRepository.findAll(pageRequest);
+        List<NotificationDTO> notificationDTOlist = new ArrayList<NotificationDTO>();
+        for (Notification acc : notificationPage.getContent()) {
+            NotificationDTO accDTO = notificationMapper.toNotificationDTO(acc);
+            notificationDTOlist.add(accDTO);
         }
-        return notificationDTOs;
+        return  new PageImpl<>(notificationDTOlist, notificationPage.getPageable(), notificationPage.getTotalElements());
     }
 
     public NotificationDTO getNotificationById(Long id) {
-        Notification notification = notificationRepository.findById(id).get();
-        NotificationDTO notificationDTO = NotificationMapper.INSTANCE.toNotificationDTO(notification);
-        return notificationDTO;
+        Optional<Notification> notification = notificationRepository.findById(id);
+        // hoặc ném một ngoại lệ nếu cần
+        return notification.map(value -> notificationMapper.toNotificationDTO(value)).orElse(null);
     }
+
 
     public NotificationDTO save(NotificationDTO notificationDTO) {
-        Notification notification = NotificationMapper.INSTANCE.toNotification(notificationDTO);
-        notificationRepository.save(notification);
-        return notificationDTO;
+        Notification notification = notificationMapper.toNotification(notificationDTO);
+        return notificationMapper.toNotificationDTO(notificationRepository.save(notification));
     }
 
-    public NotificationDTO update(NotificationDTO notificationDTO) {
-        Notification notification = NotificationMapper.INSTANCE.toNotification(notificationDTO);
-        notification.setCreatedAt(LocalDate.now());
-        return NotificationMapper.INSTANCE.toNotificationDTO(notificationRepository.save(notification));
+    public NotificationDTO update(NotificationDTO NotificationDTO) {
+        Notification notification = notificationMapper.toNotification(NotificationDTO);
+        return notificationMapper.toNotificationDTO(notificationRepository.save(notification));
     }
 
-    public void delete(Long id) {
-        notificationRepository.deleteById(id);
-    }
 
+    public boolean delete(Long id) {
+        if(notificationRepository.findById(id).isPresent()){
+            notificationRepository.deleteById(id);
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 }

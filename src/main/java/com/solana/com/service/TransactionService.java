@@ -51,9 +51,9 @@ public class TransactionService {
     public TransactionDTO save(TransactionDTO transactionDTO) {
         transactionDTO.setId(null);
         Transaction transaction = transactionMapper.toTransaction(transactionDTO);
-        transaction.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+        transaction.setTimestamp(LocalDateTime.now());
         System.out.println(transaction.toString());
-        transaction.setAccount(accountRepository.findById(transactionDTO.getAccount()).orElse(null));
+        transaction.setAccount(accountRepository.findById(transactionDTO.getAccount().getUsername()).orElse(null));
         if (transaction.getAccount() == null) {
             return null;
         } else {
@@ -63,7 +63,7 @@ public class TransactionService {
 
     public TransactionDTO update(TransactionDTO transactionDTO) {
         Transaction transaction = transactionMapper.toTransaction(transactionDTO);
-        transaction.setAccount(accountRepository.findById(transactionDTO.getAccount()).orElse(null));
+        transaction.setAccount(accountRepository.findById(transactionDTO.getAccount().getUsername()).orElse(null));
         if (transaction.getAccount() == null) {
             return null;
         } else {

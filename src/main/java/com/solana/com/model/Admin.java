@@ -1,18 +1,15 @@
 package com.solana.com.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Table
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +37,7 @@ public class Admin {
     private String publicKey;
 
     @Column(name = "createAt", nullable = false)
-    private LocalDate createAt;
+    private LocalDateTime createAt;
 
     @OneToOne(mappedBy = "admin")
     private Account accounts;
@@ -109,11 +106,11 @@ public class Admin {
         this.publicKey = publicKey;
     }
 
-    public LocalDate getCreateAt() {
+    public LocalDateTime getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(LocalDate createAt) {
+    public void setCreateAt(LocalDateTime createAt) {
         this.createAt = createAt;
     }
 

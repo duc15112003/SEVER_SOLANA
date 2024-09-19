@@ -3,10 +3,9 @@ package com.solana.com.dto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-
-
-@Builder
+@Data
 public class UsersDTO {
     private Long id;
 
@@ -26,32 +25,7 @@ public class UsersDTO {
 
     private String publicKey;
 
-    private String createAt;
-
-    public UsersDTO(Long id, String firstname, String lastname, String avatar, LocalDate birthday, String email, String address, String phoneNumber, String publicKey, String createAt) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.avatar = avatar;
-        this.birthday = birthday;
-        this.email = email;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.publicKey = publicKey;
-        this.createAt = createAt;
-    }
-
-    public UsersDTO() {
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+    private LocalDateTime createAt;
     public Long getId() {
         return id;
     }
@@ -92,6 +66,14 @@ public class UsersDTO {
         this.birthday = birthday;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -116,11 +98,12 @@ public class UsersDTO {
         this.publicKey = publicKey;
     }
 
-    public String getCreateAt() {
+    public LocalDateTime getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(String createAt) {
+    public void setCreateAt(LocalDateTime createAt) {
         this.createAt = createAt;
     }
+
 }

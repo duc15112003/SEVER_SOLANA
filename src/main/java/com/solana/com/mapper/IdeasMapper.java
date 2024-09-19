@@ -2,35 +2,25 @@ package com.solana.com.mapper;
 
 import com.solana.com.dto.IdeasDTO;
 import com.solana.com.model.Ideas;
-import com.solana.com.util.FormatDate;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface IdeasMapper {
 
-    @Mapping(target = "createAt", qualifiedByName = "defaultTimestamp")
-    @Mapping(target = "updateAt", qualifiedByName = "defaultTimestamp")
-    @Mapping(target = "endAt", qualifiedByName = "defaultTimestamp")
-    Ideas toIdeas(IdeasDTO ideasDTO);
-
-    @Mapping(target = "createAt", qualifiedByName = "timestampToString")
-    @Mapping(target = "updateAt", qualifiedByName = "timestampToString")
-    @Mapping(target = "endAt", qualifiedByName = "timestampToString")
+    // Map the 'account.username' field from Ideas to 'accountUsername' in IdeasDTO
+    @Mapping(source = "account.username", target = "accountUsername")
     IdeasDTO toIdeasDTO(Ideas ideas);
 
-    @Named("defaultTimestamp")
-    default Timestamp defaultTimestamp(String string) {
-        return Timestamp.valueOf(LocalDateTime.now());
-    }
+    // Map the IdeasDTO back to the Ideas entity
+    @Mapping(source = "accountUsername", target = "account.username")
+    Ideas toIdeas(IdeasDTO ideasDTO);
 
-    @Named("timestampToString")
-    default String timestampToString(Timestamp timestamp) {
-        return timestamp == null ? null : FormatDate.formatTimestampToString(timestamp);
-    }
+    // Map a list of Ideas to a list of IdeasDTO
+    List<IdeasDTO> toIdeasDTOList(List<Ideas> ideasList);
 
+    // Map a list of IdeasDTO to a list of Ideas
+    List<Ideas> toIdeasList(List<IdeasDTO> ideasDTOList);
 }

@@ -16,15 +16,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-
-    private final AccountRepository accountRepository;
-    private final RoleMappingRepository roleMappingRepository;
-
-    public CustomUserDetailsService(AccountRepository accountRepository, RoleMappingRepository roleMappingRepository) {
-        this.accountRepository = accountRepository;
-        this.roleMappingRepository = roleMappingRepository;
-    }
-
+    @Autowired
+    AccountRepository accountRepository;
+    @Autowired
+    RoleMappingRepository roleMappingRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountRepository.findById(username)

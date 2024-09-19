@@ -6,15 +6,12 @@ import com.solana.com.dao.IdeasRepository;
 import com.solana.com.dto.FeedbackDTO;
 import com.solana.com.mapper.FeedbackMapper;
 import com.solana.com.model.Feedback;
-import com.solana.com.model.Ideas;
-import com.solana.com.util.FormatDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,20 +49,20 @@ public class FeedbackService {
 
     public FeedbackDTO save(FeedbackDTO feedbackDTO) {
         Feedback feedback = feedbackMapper.toFeedback(feedbackDTO);
-        feedback.setCreateAt(Timestamp.valueOf(LocalDateTime.now()));
-        feedback.setAccount(accountRepository.findById(feedbackDTO.getAccount()).orElse(null));
-        feedback.setIdea(ideasRepository.findById(feedbackDTO.getIdeaId()).orElse(null));
+        feedback.setCreateAt(LocalDateTime.now());
         if (feedback.getAccount() == null || feedback.getIdea() == null) {
             return null;
         } else {
+            feedback.setAccount(accountRepository.findById(feedbackDTO.getAccount().getUsername()).orElse(null));
+            feedback.setIdea(ideasRepository.findById(feedbackDTO.getIdea().getId()).orElse(null));
             return feedbackMapper.toFeedbackDTO(feedbackRepository.save(feedback));
         }
     }
 
     public FeedbackDTO update(FeedbackDTO feedbackDTO) {
         Feedback feedback = feedbackMapper.toFeedback(feedbackDTO);
-        feedback.setAccount(accountRepository.findById(feedbackDTO.getAccount()).orElse(null));
-        feedback.setIdea(ideasRepository.findById(feedbackDTO.getIdeaId()).orElse(null));
+        feedback.setAccount(accountRepository.findById(feedbackDTO.getAccount().getUsername()).orElse(null));
+        feedback.setIdea(ideasRepository.findById(feedbackDTO.getIdea().getId()).orElse(null));
         if (feedback.getAccount() == null || feedback.getIdea() == null) {
             return null;
         } else {

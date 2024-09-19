@@ -3,6 +3,7 @@ package com.solana.com.dto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +17,7 @@ public class AdminDTO {
     private String address;
     private String phoneNumber;
     private String publicKey;
-    private LocalDate createAt;
+    private LocalDateTime createAt;
 
     public Long getId() {
         return id;
@@ -82,26 +83,11 @@ public class AdminDTO {
         this.publicKey = publicKey;
     }
 
-    public LocalDate getCreateAt() {
+    public LocalDateTime getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(LocalDate createAt) {
+    public void setCreateAt(LocalDateTime createAt) {
         this.createAt = createAt;
-    }
-
-    @Override
-    public String toString() {
-        return "AdminDTO{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", birthday=" + birthday +
-                ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", publicKey='" + publicKey + '\'' +
-                ", createAt=" + createAt +
-                '}';
     }
 }

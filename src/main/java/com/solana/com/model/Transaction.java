@@ -1,13 +1,13 @@
 package com.solana.com.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "transactions")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transaction {
@@ -31,7 +31,7 @@ public class Transaction {
     private Long feeTransaction;
 
     @Column(name = "timestamp")
-    private Timestamp timestamp;
+    private LocalDateTime timestamp;
 
     @Column(name = "block_hash", length = 64)
     private String blockHash;
@@ -88,11 +88,11 @@ public class Transaction {
         this.feeTransaction = feeTransaction;
     }
 
-    public Timestamp getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -110,20 +110,5 @@ public class Transaction {
 
     public void setAccount(Account account) {
         this.account = account;
-    }
-
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "id=" + id +
-                ", transactionType='" + transactionType + '\'' +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
-                ", amount=" + amount +
-                ", feeTransaction=" + feeTransaction +
-                ", timestamp=" + timestamp +
-                ", blockHash='" + blockHash + '\'' +
-                ", account=" + account +
-                '}';
     }
 }

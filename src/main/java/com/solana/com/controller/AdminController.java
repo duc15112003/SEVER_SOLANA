@@ -19,15 +19,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/admin")
-@RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class AdminController {
     @Autowired
     AdminService adminService;
 
-    @GetMapping("/all")
+    @GetMapping("all")
     public ResponseEntity<ApiResponse<PagedModel<EntityModel<AdminDTO>>>> getAllAdmin(@RequestParam(value = "page", defaultValue = "0") int page,
                                                                    @RequestParam(value = "size", defaultValue = "10") int size,
                                                                    PagedResourcesAssembler<AdminDTO> assembler) {

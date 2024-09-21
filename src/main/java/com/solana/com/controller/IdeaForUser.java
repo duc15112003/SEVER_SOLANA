@@ -2,7 +2,7 @@ package com.solana.com.controller;
 
 import com.solana.com.dao.IdeasRepository;
 import com.solana.com.dto.IdeasDTO;
-import com.solana.com.mapper.IdeasMapperImpl;
+//import com.solana.com.mapper.IdeasMapperImpl;
 import com.solana.com.model.Ideas;
 import com.solana.com.respone.ApiResponse;
 import com.solana.com.service.IdeasService;
@@ -22,8 +22,8 @@ public class IdeaForUser {
     private IdeasService ideasService;
     @Autowired
     private IdeasRepository ideasRepository;
-    @Autowired
-    private IdeasMapperImpl ideasMapperImpl;
+//    @Autowired
+//    private IdeasMapperImpl ideasMapperImpl;
     @Autowired
     IdeasMapper ideasMapper;
 

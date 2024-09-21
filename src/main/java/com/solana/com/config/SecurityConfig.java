@@ -34,7 +34,7 @@ public class SecurityConfig {
             "/api/auth/login",
             "/api/auth/register",
             "/api/auth/forgotpass",
-            "/api/auth/profile**"
+//            "/api/auth/profile**"
     };
 
     @Bean
@@ -43,8 +43,8 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PUBLIC_ENDPOINTS).permitAll() // Không yêu cầu xác thực
-//                        .requestMatchers("/api/feedback/all").hasRole("ADMIN") // Chỉ Staff được truy cập
-//                        .requestMatchers("/api/admin/**").hasRole("ADMIN")   // Chỉ Admin được truy cập
+                        .requestMatchers("/api/admin/customer/all").hasRole("ADMIN") // Chỉ Staff được truy cập
+                      .requestMatchers("/api/user/idea").hasRole("USER")   // Chỉ Admin được truy cập
                         .anyRequest().permitAll()// Các yêu cầu khác yêu cầu xác thực
                 )
                 .sessionManagement(session -> session

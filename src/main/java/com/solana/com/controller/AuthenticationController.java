@@ -87,6 +87,23 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
     }
 
+
+    @GetMapping("/getaccount")
+    public ApiResponse<AccountDTO> getAccountByUsername(@RequestParam("username") String username){
+        ApiResponse<AccountDTO> response = new ApiResponse();
+        try{
+                AccountDTO accountDTO = accountService.getAccountById(username);
+                response.setResult(accountDTO);
+                response.setCode(HttpStatus.OK.value());
+                response.setMessage("Success get account");
+        } catch (Exception e) {
+            response.setResult(null);
+            response.setCode(HttpStatus.BAD_REQUEST.value());
+            response.setMessage(e.getMessage());
+        }
+        return response;
+    }
+
     @GetMapping("/profile")
     public ResponseEntity<ApiResponse<UsersDTO>> getUserbyUsername(@RequestParam("username") String username) throws Exception {
         ApiResponse<UsersDTO> response = new ApiResponse<>();

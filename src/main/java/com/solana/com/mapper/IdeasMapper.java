@@ -11,11 +11,11 @@ import java.util.List;
 public interface IdeasMapper {
 
     // Map the 'account.username' field from Ideas to 'accountUsername' in IdeasDTO
-    @Mapping(source = "account.username", target = "accountUsername")
+//    @Mapping(source = "account.username", target = "accountUsername")
     IdeasDTO toIdeasDTO(Ideas ideas);
 
     // Map the IdeasDTO back to the Ideas entity
-    @Mapping(source = "accountUsername", target = "account.username")
+//    @Mapping(source = "accountUsername", target = "account.username")
     Ideas toIdeas(IdeasDTO ideasDTO);
 
     // Map a list of Ideas to a list of IdeasDTO

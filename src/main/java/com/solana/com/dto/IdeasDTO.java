@@ -1,5 +1,6 @@
 package com.solana.com.dto;
 
+import jakarta.persistence.Column;
 import lombok.*;
 import java.time.LocalDateTime;
 
@@ -19,7 +20,6 @@ public class IdeasDTO {
     private Long countFeedback;
     private Long awardForOneFeedback;
     private String accountUsername; // Chỉ chứa username
-
     public Long getId() {
         return id;
     }

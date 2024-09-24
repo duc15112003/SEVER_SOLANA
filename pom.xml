@@ -74,6 +74,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.mmorrell/solanaj -->
+		<dependency>
+			<groupId>com.mmorrell</groupId>
+			<artifactId>solanaj</artifactId>
+			<version>1.18.2</version>
+		</dependency>
+
+
 		<!-- https://mvnrepository.com/artifact/com.cloudinary/cloudinary-core -->
 		<dependency>
 			<groupId>com.cloudinary</groupId>
@@ -86,10 +95,12 @@
 			<artifactId>cloudinary-http44</artifactId>
 			<version>1.32.2</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.mmorrell/solanaj -->
+
 		<dependency>
-			<groupId>com.mmorrell</groupId>
-			<artifactId>solanaj</artifactId>
-			<version>1.17.0</version>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

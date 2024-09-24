@@ -30,14 +30,24 @@ public class Admin {
     @Column(name = "address", length = 255)
     private String address;
 
+    @Column(name = "email", length = 255)
+    private String email;
+
+    @Column(name = "position", length = 255)
+    private String position;
+
+    @Column(name = "salary", length = 255)
+    private Long salary;
+
     @Column(name = "phone_number", nullable = false, length = 13)
     private String phoneNumber;
 
-    @Column(name = "public_key", length = 255)
-    private String publicKey;
-
-    @Column(name = "createAt", nullable = false)
+    @Column(name = "createAt", nullable = true)
     private LocalDateTime createAt;
+    @Column(name = "updateAt", nullable = true)
+    private LocalDateTime updateAt;
+    @Column(name = "deleteAt", nullable = true)
+    private LocalDateTime deleteAt;
 
     @OneToOne(mappedBy = "admin")
     private Account accounts;
@@ -98,13 +108,6 @@ public class Admin {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPublicKey() {
-        return publicKey;
-    }
-
-    public void setPublicKey(String publicKey) {
-        this.publicKey = publicKey;
-    }
 
     public LocalDateTime getCreateAt() {
         return createAt;

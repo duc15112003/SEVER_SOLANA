@@ -78,4 +78,9 @@ public class IdeasService {
         }
         return false;
     }
+
+    public List<IdeasDTO> findIdeaByStatusAll(String Status){
+        List<Ideas> list = ideasRepository.findIdeasByStatus(Status);
+        return ideasMapper.toIdeasDTOList(list);
+    }
 }

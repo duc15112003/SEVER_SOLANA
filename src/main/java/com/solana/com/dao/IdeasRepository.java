@@ -11,4 +11,7 @@ public interface IdeasRepository extends JpaRepository<Ideas,Long> {
 
     @Query(value = "select idea.* from Ideas idea where idea.username = ?1", nativeQuery = true)
     List<Ideas> findIdeasByUsername(String username);
+
+    @Query(value = "select idea.* from Ideas idea where idea.status = ?1", nativeQuery = true)
+    List<Ideas> findIdeasByStatus(String status);
 }

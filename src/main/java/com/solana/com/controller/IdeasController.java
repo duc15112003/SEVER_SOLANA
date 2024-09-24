@@ -3,6 +3,7 @@ package com.solana.com.controller;
 import com.solana.com.dto.IdeasDTO;
 import com.solana.com.respone.ApiResponse;
 import com.solana.com.service.IdeasService;
+import jakarta.persistence.Id;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,9 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/ideas")
@@ -102,5 +106,25 @@ public class IdeasController {
                 .message("Idea not found")
                 .result(null)
                 .build());
+    }
+
+    @GetMapping("/ideaDone")
+    public ApiResponse<List<IdeasDTO>> getIdeaDone(@RequestParam("status") String status) {
+        ApiResponse<List<IdeasDTO>> response = new ApiResponse<List<IdeasDTO>>();
+        try {
+            List<IdeasDTO> list = ideasService.findIdeaByStatusAll(status);
+            if(list.isEmpty()){
+                response.setCode(HttpStatus.NO_CONTENT.value());
+                response.setMessage("No ideas found");
+                response.setResult(new ArrayList<IdeasDTO>());
+            }else{
+                response.setCode(HttpStatus.OK.value());
+                response.setMessage("Successfully found ideas");
+                response.setResult(list);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return response;
     }
 }
